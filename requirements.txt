@@ -1,1 +1,2 @@
 Flask==2.0.2
+beautifulsoup4==4.11.1
