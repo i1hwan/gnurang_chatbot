@@ -1,2 +1,5 @@
 Flask==2.0.2
-beautifulsoup4==4.11.1
+beautifulsoup4==4.9.3
+bs4==0.0.1
+soupsieve==2.2
+urlopen==1.0.0
