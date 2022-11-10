@@ -1,6 +1,8 @@
 from flask import Flask, request
 app = Flask(__name__)
 
+# Welcome, you are now connected to log-streaming service.
+
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
