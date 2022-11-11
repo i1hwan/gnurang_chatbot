@@ -1,7 +1,7 @@
 from flask import Flask, request
 import bs4
 from scanner import *
-
+# Jsonify? https://growingsaja.tistory.com/299
 
 app = Flask(__name__)
 
@@ -15,9 +15,14 @@ def hello_world():
 @app.route('/api/getMeal', methods=['POST'])
 def getMeal():
     body = request.get_json()
-    print(f"[수신] BODY: {body}")
-    print(f"[수신] UTTERANCE: {body['userRequest']['utterance']}")
-    response = findMeal(urlSelector("가좌캠퍼스", "중앙1식당"), "중앙1식당")
+    # print(f"[수신] BODY: {body}")
+    print(f"[수신] action: {body['action']['params']}")
+    print(f"[수신] 대화내용: {body['userRequest']['utterance']}")
+    try: day = body['action']['params']['sys_date']
+    except Exception as e: print(f"[수신] 오류: {e}"); day = '오늘' ;pass
+    campusName = body['action']['params']['campusName']
+    restaurantName = body['action']['params']['restaurantName']
+    response = findMeal(urlSelector(campusName, restaurantName), restaurantName, day)
 
     responseBody = {
         "version": "2.0",
@@ -94,3 +99,4 @@ def getMenu():  # id, campus, restaurant, date # 여기다가 매개변수 넣�
     
     
 #     return menu
+
