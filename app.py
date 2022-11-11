@@ -1,6 +1,6 @@
 from flask import Flask, request
-import requests
 import bs4
+from scanner import *
 
 
 app = Flask(__name__)
@@ -12,11 +12,12 @@ def hello_world():
     return 'Hello, World!'
 
 ## 카카오톡 텍스트형 응답
-@app.route('/api/sayHello', methods=['POST'])
-def sayHello():
+@app.route('/api/getMeal', methods=['POST'])
+def getMeal():
     body = request.get_json()
-    print(body)
-    print(body['userRequest']['utterance'])
+    print(f"[수신] BODY: {body}")
+    print(f"[수신] UTTERANCE: {body['userRequest']['utterance']}")
+    response = findMeal(urlSelector("가좌캠퍼스", "중앙1식당"), "중앙1식당")
 
     responseBody = {
         "version": "2.0",
@@ -24,7 +25,7 @@ def sayHello():
             "outputs": [
                 {
                     "simpleText": {
-                        "text": "안녕 hello I'm Ryan"
+                        "text": response
                     }
                 }
             ]

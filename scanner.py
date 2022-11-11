@@ -20,7 +20,8 @@ def urlSelector(campus: str, restaurant: str) -> str:
 
 
 # url을 받아서 해당 url의 식단을 반환  # https://naon.me/posts/til18
-def findMeal(url: str, restaurant: str, day: str = "오늘") -> list:
+def findMeal(url: str, restaurant: str, day: str = "오늘") -> str:
+    response = f"{day}의 {restaurant} 식단입니다!\n"
     print("[정보] findMeal 시작")
     # == 날짜 체크 ===============================================================
     print("[정보] 날짜 체크를 시작합니다...")
@@ -38,9 +39,10 @@ def findMeal(url: str, restaurant: str, day: str = "오늘") -> list:
         dateli.append(date[0].find_all("th")[i].text)  # 날짜를 리스트에 저장
     dateli.pop(0)  # 맨 처음 요소 (구분) 제거
     print(f"[정보] dateli 리스트에서 {nowTime}을 찾습니다...")
+    print(dateli)
     try:
         # 리스트 내에서 찾는 날짜가 있는지 판별  # https://eggwhite0.tistory.com/75
-        col = dateli.index(nowTime)
+        col = dateli.index(nowTime)  # [월,화,수,목,금,토,일] 찾는 날짜가 있는 열의 인덱스를 col에 저장
         # https://melburn119.tistory.com/305
         print(f"[성공] {nowTime}은 col = {col}열에 있습니다.")
     except Exception as e:
@@ -63,24 +65,47 @@ def findMeal(url: str, restaurant: str, day: str = "오늘") -> list:
         # text = html.find("div", {"class" : "BD_table scroll_gr main"}).find_all(text=True)
         # print(text)
         # print(f"[정보] menu = {menu}")
-        # = 카테고리와 식단 전부 출력하기 =
-        for i in range(4):  # -> [조식, 중식, 석식, 특식] (면류 비어있던데, 만약 다시 생기면 고쳐야할듯) TODO: https://kariu.tistory.com/13
+        # # = 카테고리와 식단 전부 출력하기 =
+        # for i in range(4):  # -> [조식, 중식, 석식, 특식] (면류 비어있던데, 만약 다시 생기면 고쳐야할듯) TODO: https://kariu.tistory.com/13
+        #     print(f"[정보] menu_category{i} = {menu_category[i].text}")
+        #     for j in range(7 * i, 7 * ( i + 1 )):  # 한 페이지에 일주일 분량. 조식 중식 석식 고정매뉴 7 * 4 -> 28 (
+        #         # <br> 태그가 제대로 파싱이 되지 않아 (중식 구분이 안됨) .extract() 매서드로 태그 포함 추출 후 제가공 # https://kariu.tistory.com/14 # https://stackoverflow.com/questions/17639031/beautifulsoup-sibling-structure-with-br-tags
+        #         parsed_menu = str(menu_meal[j].extract())
+        #         # parsed_menu.find("br").replace_with("\n")  # <br> 태그를 \n으로 바꿔줌
+        #         parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "")  # <td> 태그를 제거
+        #         parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "")  # <div> 태그를 제거
+        #         parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "")  # <p> 태그 제거
+        #         parsed_menu = parsed_menu.replace("<br>", "\n")  # <br/> 태그를 \n으로 바꿔줌
+        #         parsed_menu = parsed_menu.replace("<br/>", "\n")  # <br/> 태그를 \n으로 바꿔줌
+        #         parsed_menu = parsed_menu.replace("</br>", "\n")  # <br/> 태그를 \n으로 바꿔줌
+        #         # parsed_menu = parsed_menu.replace("+", "\033[A")  #  https://dojang.io/mod/page/view.php?id=2465  TODO: +로 된것도 띄워져서 이거 합치도록 고칠 수 있으면 고치기..
+        #         parsed_menu = parsed_menu.strip()  # 앞뒤 공백 제거
+        #         print(f"[정보] menu_meal{j} = {parsed_menu}")  # <br>로 인해 생긴 문자열 양 옆 공백 제거 -> (str).strip 매소드 https://blockdmask.tistory.com/568
+        # # = 카테고리와 식단 전부 출력하기 끝 =
+        for i in range(4): # -> [조식, 중식, 석식, 특식] (면류 비어있던데, 만약 다시 생기면 고쳐야할듯) TODO: https://kariu.tistory.com/13
             print(f"[정보] menu_category{i} = {menu_category[i].text}")
-            for j in range(7 * i, 7 * ( i + 1 )):  # 한 페이지에 일주일 분량. 조식 중식 석식 고정매뉴 7 * 4 -> 28 (
-                # <br> 태그가 제대로 파싱이 되지 않아 (중식 구분이 안됨) .extract() 매서드로 태그 포함 추출 후 제가공 # https://kariu.tistory.com/14 # https://stackoverflow.com/questions/17639031/beautifulsoup-sibling-structure-with-br-tags
-                parsed_menu = str(menu_meal[j].extract())
-                # parsed_menu.find("br").replace_with("\n")  # <br> 태그를 \n으로 바꿔줌
-                parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "")  # <td> 태그를 제거
-                parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "")  # <div> 태그를 제거
-                parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "")  # <p> 태그 제거
-                parsed_menu = parsed_menu.replace("<br>", "\n")  # <br/> 태그를 \n으로 바꿔줌
-                parsed_menu = parsed_menu.replace("<br/>", "\n")  # <br/> 태그를 \n으로 바꿔줌
-                parsed_menu = parsed_menu.replace("</br>", "\n")  # <br/> 태그를 \n으로 바꿔줌
-                # parsed_menu = parsed_menu.replace("+", "\033[A")  #  https://dojang.io/mod/page/view.php?id=2465  TODO: +로 된것도 띄워져서 이거 합치도록 고칠 수 있으면 고치기..
-                parsed_menu = parsed_menu.strip()  # 앞뒤 공백 제거
-                print(f"[정보] menu_meal{j} = {parsed_menu}")  # <br>로 인해 생긴 문자열 양 옆 공백 제거 -> (str).strip 매소드 https://blockdmask.tistory.com/568
+            response += menu_category[i].text + "\n"
+            parsed_menu = str(menu_meal[col + (7 * i)].extract())  # col = 0, 1, 2, 3, 4, 5, 6 (일요일 ~ 토요일) + (7 * 0~3) (조식, 중식, 석식, 특식)
+            parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "\n");parsed_menu = parsed_menu.replace("<br/>", "\n");parsed_menu = parsed_menu.replace("</br>", "\n");parsed_menu = parsed_menu.strip()
+            if i == 1:  # Customized for 중앙식당
+                parsed_menu = parsed_menu.split("\n")
+                parsed_menu.insert(0, "(한식)")
+                parsed_menu.insert(2, "(양식)")
+                print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
+                response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
+            if i == 2:  # Customized for 중앙식당
+                parsed_menu = parsed_menu.split("\n")
+                print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
+                response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
+            
+            else:
+                print(f"[정보] menu_meal{col + (7 * i)} = {parsed_menu}")
+                response += str(parsed_menu) + "\n"
                 
-    return dateli
+    # TODO 다른 식당도 추가하기
+
+
+    return response
 
 
 if __name__ == "__main__":
