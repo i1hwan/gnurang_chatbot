@@ -75,9 +75,9 @@ def getMenu():  # id, campus, restaurant, date # 여기다가 매개변수 넣�
         "template": {
             "outputs": [
                 {
-                    "simpleText": {
-                        # "imageUrl": "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
-                        "Text": "This is Simple Text Message"
+                    "simpleImage": {
+                        "imageUrl": "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
+                        "altText": "This is Simple Alt Text Message"
                     }
                 }
             ]
@@ -86,10 +86,10 @@ def getMenu():  # id, campus, restaurant, date # 여기다가 매개변수 넣�
 
     return responseBody
 
-def findMenu(campus, restaurant, date):
-    web = requests.get('https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=2168&menuCd=DOM_0000001000000000010')
-    bs4Web = bs4.BeautifulSoup(web.text, 'html.parser')
+# def findMenu(campus, restaurant, date):
+#     web = requests.get('https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=2168&menuCd=DOM_0000001000000000010')
+#     bs4Web = bs4.BeautifulSoup(web.text, 'html.parser')
     
     
     
-    return menu
+#     return menu

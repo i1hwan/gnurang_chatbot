@@ -23,15 +23,15 @@ def urlSelector(campus: str, restaurant: str) -> str:
 def findMeal(url: str, restaurant: str, day: str = "오늘") -> list:
     print("[정보] findMeal 시작")
     # == 날짜 체크 ===============================================================
+    print("[정보] 날짜 체크를 시작합니다...")
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     nowDate = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-    # 요일 변환기 (영어 -> 한글)
-    nowDay = time.strftime('%a', time.localtime(time.time())).replace('Mon', '월').replace('Tue', '화').replace(
-        'Wed', '수').replace('Thu', '목').replace('Fri', '금').replace('Sat', '토').replace('Sun', '일')
+    # 요일 변환기 (영어 -> 한글)  # (str).replace()매소드로 Mon. Tue등 영어로 나오는 단어 치환하여 내장함수 한글화 -> https://blockdmask.tistory.com/568
+    nowDay = time.strftime('%a', time.localtime(time.time())).replace('Mon', '월').replace('Tue', '화').replace('Wed', '수').replace('Thu', '목').replace('Fri', '금').replace('Sat', '토').replace('Sun', '일')
     nowTime = nowDay + ' ' + nowDate  # 현재 요일과 날짜를 합쳐서 nowTime에 저장
     print(f"[정보] nowTime = {nowTime}")
 
-    html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")
+    html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
     date = html.find_all("thead")
     dateli = []  # 날짜를 저장해줄 리스트 선언
     for i in range(8):  # -> [구분, 월, 화, 수, 목, 금, 토, 일]
@@ -53,17 +53,33 @@ def findMeal(url: str, restaurant: str, day: str = "오늘") -> list:
     # 아니 식단이 다 파편화 되어 있어서 다 따로 만들어야해 ㅋㅋㅋ
 
     # == 가좌 중앙1식당 식단 체크 ===================================================
+    print("[정보] 식단 체크를 시작합니다...")
     if restaurant == "중앙1식당":
         print("[정보] 중앙1식당 식단을 찾습니다.")
-        menu = html.find_all("tbody")
-        menu_category = menu[0].find_all("th")
-        menu_meal = menu[0].find_all("td")
+        menu = html.find_all("tbody")  # 웹 페이지에서 tbody 태그를 찾아서 menu에 저장 (식단이 있는 곳)
+        # print(menu)
+        menu_category = menu[0].find_all("th")  # 웹 페이지에서 th 태그를 찾아서 menu_category에 저장 (식단 카테고리)
+        menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
+        # text = html.find("div", {"class" : "BD_table scroll_gr main"}).find_all(text=True)
+        # print(text)
         # print(f"[정보] menu = {menu}")
-        for i in range(4):  # -> [조식, 중식, 석식, 특식] (면류 비어있던데, 만약 다시 생기면 고쳐야할듯)
+        # = 카테고리와 식단 전부 출력하기 =
+        for i in range(4):  # -> [조식, 중식, 석식, 특식] (면류 비어있던데, 만약 다시 생기면 고쳐야할듯) TODO: https://kariu.tistory.com/13
             print(f"[정보] menu_category{i} = {menu_category[i].text}")
             for j in range(7 * i, 7 * ( i + 1 )):  # 한 페이지에 일주일 분량. 조식 중식 석식 고정매뉴 7 * 4 -> 28 (
-                print(f"[정보] menu_meal{j} = {menu_meal[j].text}")
-
+                # <br> 태그가 제대로 파싱이 되지 않아 (중식 구분이 안됨) .extract() 매서드로 태그 포함 추출 후 제가공 # https://kariu.tistory.com/14 # https://stackoverflow.com/questions/17639031/beautifulsoup-sibling-structure-with-br-tags
+                parsed_menu = str(menu_meal[j].extract())
+                # parsed_menu.find("br").replace_with("\n")  # <br> 태그를 \n으로 바꿔줌
+                parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "")  # <td> 태그를 제거
+                parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "")  # <div> 태그를 제거
+                parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "")  # <p> 태그 제거
+                parsed_menu = parsed_menu.replace("<br>", "\n")  # <br/> 태그를 \n으로 바꿔줌
+                parsed_menu = parsed_menu.replace("<br/>", "\n")  # <br/> 태그를 \n으로 바꿔줌
+                parsed_menu = parsed_menu.replace("</br>", "\n")  # <br/> 태그를 \n으로 바꿔줌
+                # parsed_menu = parsed_menu.replace("+", "\033[A")  #  https://dojang.io/mod/page/view.php?id=2465  TODO: +로 된것도 띄워져서 이거 합치도록 고칠 수 있으면 고치기..
+                parsed_menu = parsed_menu.strip()  # 앞뒤 공백 제거
+                print(f"[정보] menu_meal{j} = {parsed_menu}")  # <br>로 인해 생긴 문자열 양 옆 공백 제거 -> (str).strip 매소드 https://blockdmask.tistory.com/568
+                
     return dateli
 
 
