@@ -20,8 +20,7 @@ def urlSelector(campus: str, restaurant: str) -> str:
 
 
 # url을 받아서 해당 url의 식단을 반환  # https://naon.me/posts/til18
-def findMeal(url: str, restaurant: str, day: str = "오늘") -> str:
-    response = f"{day}의 {restaurant} 식단입니다!\n"
+def findMeal(url: str, restaurant: str, day: str = "오늘") -> str | bool:
     print("[정보] findMeal 시작")
     # == 날짜 체크 ===============================================================
     print("[정보] 날짜 체크를 시작합니다...")
@@ -55,6 +54,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘") -> str:
     # 아니 식단이 다 파편화 되어 있어서 다 따로 만들어야해 ㅋㅋㅋ
 
     # == 가좌 중앙1식당 식단 체크 ===================================================
+    response = f"{nowTime}의 {restaurant} 식단입니다!\n"
     print("[정보] 식단 체크를 시작합니다...")
     if restaurant == "중앙1식당":
         print("[정보] 중앙1식당 식단을 찾습니다.")
@@ -87,13 +87,13 @@ def findMeal(url: str, restaurant: str, day: str = "오늘") -> str:
             response += menu_category[i].text + "\n"
             parsed_menu = str(menu_meal[col + (7 * i)].extract())  # col = 0, 1, 2, 3, 4, 5, 6 (일요일 ~ 토요일) + (7 * 0~3) (조식, 중식, 석식, 특식)
             parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "\n");parsed_menu = parsed_menu.replace("<br/>", "\n");parsed_menu = parsed_menu.replace("</br>", "\n");parsed_menu = parsed_menu.strip()
-            if i == 1:  # Customized for 중앙식당
+            if i == 1 and len(parsed_menu) > 1:  # Customized for 중앙식당
                 parsed_menu = parsed_menu.split("\n")
                 parsed_menu.insert(0, "(한식)")
                 parsed_menu.insert(2, "(양식)")
                 print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
                 response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
-            if i == 2:  # Customized for 중앙식당
+            elif i == 2:  # Customized for 중앙식당
                 parsed_menu = parsed_menu.split("\n")
                 print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
                 response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
@@ -101,14 +101,20 @@ def findMeal(url: str, restaurant: str, day: str = "오늘") -> str:
             else:
                 print(f"[정보] menu_meal{col + (7 * i)} = {parsed_menu}")
                 response += str(parsed_menu) + "\n"
-                
+            
+            # = 아무런 정보가 없는 경우!! =
+        if len(parsed_menu) < 1:
+            print(f"[경고] {nowTime}의 학식 정보가 없습니다.")
+            response = "학식을 찾을 수 없어요. 아마 학식이 제공되지 않는 날인것 같아요...\n"
+            return response, False
     # TODO 다른 식당도 추가하기
 
 
-    return response
+    return response, True
 
 
 if __name__ == "__main__":
+    # Local TEST environment
     campus = "가좌캠퍼스"
     restaurant = "중앙1식당"
     date = "오늘"

@@ -16,26 +16,39 @@ def hello_world():
 def getMeal():
     body = request.get_json()
     # print(f"[수신] BODY: {body}")
-    print(f"[수신] action: {body['action']['params']}")
+    print(f"[수신] Parameters: {body['action']['params']}")
     print(f"[수신] 대화내용: {body['userRequest']['utterance']}")
     try: day = body['action']['params']['sys_date']
     except Exception as e: print(f"[수신] 오류: {e}"); day = '오늘' ;pass
     campusName = body['action']['params']['campusName']
     restaurantName = body['action']['params']['restaurantName']
     response = findMeal(urlSelector(campusName, restaurantName), restaurantName, day)
-
-    responseBody = {
-        "version": "2.0",
-        "template": {
-            "outputs": [
-                {
-                    "simpleText": {
-                        "text": response
+    if response[1] == True:  # 학식을 찾았을 경우에 대한 응답 JSON
+        responseBody = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": response[0]
+                        }
                     }
-                }
-            ]
+                ]
+            }
         }
-    }
+    else:  # 학식을 찾지 못했을 경우에 대한 응답 JSON
+        responseBody = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": response[0]
+                        }
+                    }
+                ]
+            }
+        }
 
     return responseBody
 
