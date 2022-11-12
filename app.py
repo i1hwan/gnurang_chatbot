@@ -36,7 +36,7 @@ def getMeal():
                 ]
             }
         }
-    else:  # 학식을 찾지 못했을 경우에 대한 응답 JSON
+    elif response[1] == False:  # 학식을 찾지 못했을 경우에 대한 응답 JSON
         responseBody = {
             "version": "2.0",
             "template": {
@@ -44,6 +44,19 @@ def getMeal():
                     {
                         "simpleText": {
                             "text": response[0]
+                        }
+                    }
+                ]
+            }
+        }
+    else:
+        responseBody = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "에러가 발생했습니다."
                         }
                     }
                 ]

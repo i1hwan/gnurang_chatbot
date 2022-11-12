@@ -2,7 +2,12 @@ import bs4
 import urllib
 from flask import Flask, request, jsonify
 import time
+from pytz import timezone
+from datetime import datetime
+from datetime import date as daze
 
+# 다른 캠퍼스 지원 빼버릴까...
+# 가좌 온리로 가..? 온리로 간다.
 
 # 캠퍼스와 식당에 따른 크롤링 url 반환 (아람은 아예 다르게 처리해야 할듯)
 def urlSelector(campus: str, restaurant: str) -> str:
@@ -10,35 +15,66 @@ def urlSelector(campus: str, restaurant: str) -> str:
     if campus == "가좌캠퍼스":
         if restaurant == "중앙1식당":
             return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=5"
-    elif campus == "칠암캠퍼스":
+        elif restaurant == "교육문화센터":
+            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=6"
+        elif restaurant == "교직원식당":
+            return 0
+        elif restaurant == "아람관":
+            return 0
+        else: 
+            print(f"[오류] {campus}에는 {restaurant}가 존재하지 않습니다.")
+    elif campus == "칠암캠퍼스":  # Deprecated
         pass
-    elif campus == "통영캠퍼스":
+    elif campus == "통영캠퍼스":  # Deprecated
         pass
     else:
-        print(f"[ERROR] campus : {campus} 는 확인할 수 없거나 없는 캠퍼스입니다.")
+        print(f"[오류] campus : {campus} 는 확인할 수 없거나 없는 캠퍼스입니다.")
         return -1
 
 
 # url을 받아서 해당 url의 식단을 반환  # https://naon.me/posts/til18
-def findMeal(url: str, restaurant: str, day: str = "오늘") -> str | bool:
+def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0) -> str | bool:
+    # TODO 만약 날짜가 리스트에 없다면 양 끝 날짜 확인 후 더 가까운 쪽의 페이지로 이동하도록 만들기.
+    
     print("[정보] findMeal 시작")
     # == 날짜 체크 ===============================================================
     print("[정보] 날짜 체크를 시작합니다...")
-    # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
-    nowDate = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-    # 요일 변환기 (영어 -> 한글)  # (str).replace()매소드로 Mon. Tue등 영어로 나오는 단어 치환하여 내장함수 한글화 -> https://blockdmask.tistory.com/568
-    nowDay = time.strftime('%a', time.localtime(time.time())).replace('Mon', '월').replace('Tue', '화').replace('Wed', '수').replace('Thu', '목').replace('Fri', '금').replace('Sat', '토').replace('Sun', '일')
-    nowTime = nowDay + ' ' + nowDate  # 현재 요일과 날짜를 합쳐서 nowTime에 저장
-    print(f"[정보] nowTime = {nowTime}")
-
+    # 학교 공식 식단리스트에 접근해 표의 날짜 리스트 [구분, 월, 화, 수, 목, 금, 토, 일]를 가져옴
     html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
-    date = html.find_all("thead")
+    date = html.find_all("thead")  # thead 태그를 찾아서 date에 저장
     dateli = []  # 날짜를 저장해줄 리스트 선언
     for i in range(8):  # -> [구분, 월, 화, 수, 목, 금, 토, 일]
         dateli.append(date[0].find_all("th")[i].text)  # 날짜를 리스트에 저장
-    dateli.pop(0)  # 맨 처음 요소 (구분) 제거
+    dateli.pop(0)  # 맨 처음 요소 [구분] 제거
+    
+    # findMeal 요청후 요청한 날짜는 day가 오늘이던 내일이던 어떤 경우에도 필요하니 현재 시간 받아오기
+    # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463  #TODO 서버시간을 UTC+9 으로 맞춰야함 time 함수 -> datetime 함수로 변경
+    nowDate = datetime.now(timezone('Asia/Seoul')).strftime('%Y-%m-%d')
+    # 요일 변환기 (영어 -> 한글)  # (str).replace()매소드로 Mon. Tue등 영어로 나오는 단어 치환하여 내장함수 한글화 -> https://blockdmask.tistory.com/568
+    nowDay = datetime.now(timezone('Asia/Seoul')).strftime('%a').replace('Mon', '월').replace('Tue', '화').replace('Wed', '수').replace('Thu', '목').replace('Fri', '금').replace('Sat', '토').replace('Sun', '일')
+    nowTime = nowDay + ' ' + nowDate  # 현재 요일과 날짜를 합쳐서 nowTime에 저장
+    print(f"[정보] nowTime = {nowTime}")
+    
+    if day == "오늘":  # 오늘로 입력받은 경우 KST 기준으로 오늘 날짜를 받아옴
+        pass
+    elif day == "내일":  # 내일로 입력받은 경우 (오늘 날짜 + 1) 
+        nextDay = daze.fromisoformat(nowDate).replace(day = daze.fromisoformat(nowDate).day + 1).strftime('%a %Y-%m-%d').replace('Mon', '월').replace('Tue', '화').replace('Wed', '수').replace('Thu', '목').replace('Fri', '금').replace('Sat', '토').replace('Sun', '일')  # 내일 날짜 구하기  # https://www.daleseo.com/python-datetime/
+        print(f"[정보] -> nextday = {nextDay}")
+        nowTime = nextDay  # 내일 날짜를 nowTime에 저장
+        pass
+    elif day == "월" or day == "화" or day == "수" or day == "목" or day == "금" or day == "토" or day == "일":
+        #TODO 오늘 기준으로 날짜가 이전 날짜일 경우 다음주 날짜를 알려주게 만들까? 일단 이번 주 요일만 알려주는 걸로 만들거임.
+        dateli = list(filter(lambda x: (str(dateli).replace("[", "").replace("]", "").replace("'", "").replace(",", "").split().index(x)+1) % 2, str(dateli).replace("[", "").replace("]", "").replace("'", "").replace(",", "").split()))  #[1] 홀수 인덱스만 남기기 -> [월, 화, 수, 목, 금, 토, 일]
+        nowTime = day
+        print(f"[정보] -> nowTime = {nowTime}")
+        pass
+    else:
+        print(f"[오류] day : {day} 는 확인할 수 없거나 없는 날짜입니다.")
+        return -1
+    
+
     print(f"[정보] dateli 리스트에서 {nowTime}을 찾습니다...")
-    print(dateli)
+    print(dateli)  #ex ['월 2022-11-14', '화 2022-11-15', '수 2022-11-16', '목 2022-11-17', '금 2022-11-18', '토 2022-11-19', '일 2022-11-20']
     try:
         # 리스트 내에서 찾는 날짜가 있는지 판별  # https://eggwhite0.tistory.com/75
         col = dateli.index(nowTime)  # [월,화,수,목,금,토,일] 찾는 날짜가 있는 열의 인덱스를 col에 저장
@@ -46,8 +82,15 @@ def findMeal(url: str, restaurant: str, day: str = "오늘") -> str | bool:
         print(f"[성공] {nowTime}은 col = {col}열에 있습니다.")
     except Exception as e:
         print(f"[실패] {e} : dateli 리스트에 {nowTime}이 없습니다.")  # 없으면 에러 출력
-        pass  # [투두] 에러 처리 후 다시 돌아가 다음 주 인덱싱하게 만들기. 최대 3번.
-        # 입력받는 날짜도 어떻게 할지 정해야함!!!!
+        pass  #TODO 에러 처리 후 다시 돌아가 다음 주 인덱싱하게 만들기. 최대 3번.
+        print(f"[정보] 다음 주 인덱싱을 시도합니다.")
+        response = "다음 주 확인하기 기능은 아직 개발중인 기능 입니다!"
+        #TODO 다음 주 인덱싱 처리하기 (이거 학식 웹 보면 자바스크립트 기반으로 다음 식단 보게 되어있어서 구현 힘들것 같음...)
+        return response
+        response = findMeal(url, restaurant, day, idx=1)
+        #url 셀렉터에서 헨들링할까..
+        return response
+        # 입력받는 날짜도 어떻게 할지 정해야함!!!! [완료]
 
     # == 날짜 체크 끝 =============================================================
 
@@ -119,5 +162,22 @@ if __name__ == "__main__":
     restaurant = "중앙1식당"
     date = "오늘"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
-    print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
+    # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
+    print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
     print(findMeal(urlSelector(campus, restaurant), restaurant, date))
+
+
+#[1]
+# 우리는 day = 요일 만을 가지고 몇번째 리스트인지 알아내어야 한다.
+# -> 사실 다 만들고 생각해보니 월화수목금토일 -> 0123456과 같이 숫자로 바꾸는게 더 편했을 것 같다... 암튼
+# 우선 우린 dateli 라는 변수에 다음과 같은 값을 넣어줬다.
+# ['월 2022-11-14', '화 2022-11-15', '수 2022-11-16', '목 2022-11-17', '금 2022-11-18', '토 2022-11-19', '일 2022-11-20']
+# 여기서 우리는 이 리스트의 월, 화, 수, 목, 금, 토, 일만을 필요로 하는데, 우리는 날짜를 입력받지 못했기 때문에 이를 찾기 위해서 .index()를 사용하려 해도
+# 요일만 가지고 있지 날짜가 없으므로 아무 소용이 없다, 그래서 이 데이터를 다시 가공하고자 list를 string화 시키고
+# "['월 2022-11-14', '화 2022-11-15', '수 2022-11-16', '목 2022-11-17', '금 2022-11-18', '토 2022-11-19', '일 2022-11-20']"
+# 쓸모 없는 문자들을 제거하고
+# '월 2022-11-14 화 2022-11-15 수 2022-11-16 목 2022-11-17 금 2022-11-18 토 2022-11-19 일 2022-11-20'
+# 공백 기준으로 문자열을 split 해주었다
+# ['월', '2022-11-14', '화', '2022-11-15', '수', '2022-11-16', '목', '2022-11-17', '금', '2022-11-18', '토', '2022-11-19', '일', '2022-11-20']
+# 이후 우리는 홀수번째 인덱스의 값만 필요하므로 filter 함수와 lambda 함수를 사용해 주었는데, 
+# 이제 우리는 이를 이용해 우리가 원하는 리스트의 인덱스를 알아낼 수 있다.
