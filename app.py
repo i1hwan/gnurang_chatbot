@@ -19,7 +19,7 @@ def getMeal():
     print(f"[수신] Parameters: {body['action']['params']}")
     print(f"[수신] 대화내용: {body['userRequest']['utterance']}")
     try: day = body['action']['params']['sys_date']
-    except Exception as e: print(f"[수신] 오류: {e}"); day = '오늘' ;pass
+    except Exception as e: print(f"[수신] 오류: {e}"); day = '오늘'
     campusName = body['action']['params']['campusName']
     restaurantName = body['action']['params']['restaurantName']
     response = findMeal(urlSelector(campusName, restaurantName), restaurantName, day)
