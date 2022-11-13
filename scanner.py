@@ -223,7 +223,6 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             return response, False
     # == 아람관 식단 체크 ===================================================
     elif restaurant == "가좌 생활관 식당":
-        col = 4; i = 2  #DEBUG
         print("[정보] 아람관 식단을 찾습니다.")
         items = []  # [response][items]에 들어갈 리스트
         menu = html.find_all("tbody")  # 웹 페이지에서 tbody 태그를 찾아서 menu에 저장 (식단이 있는 곳)
