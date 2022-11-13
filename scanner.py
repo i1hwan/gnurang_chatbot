@@ -1,7 +1,7 @@
 import bs4
 import urllib
 from flask import Flask, request, jsonify
-import time
+import requests
 from pytz import timezone
 from datetime import datetime
 from datetime import date as daze
@@ -85,7 +85,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0) -> st
         pass  #TODO 에러 처리 후 다시 돌아가 다음 주 인덱싱하게 만들기. 최대 3번.
         print(f"[정보] 다음 주 인덱싱을 시도합니다.")
         response = "다음 주 확인하기 기능은 아직 개발중인 기능 입니다!"
-        #TODO 다음 주 인덱싱 처리하기 (이거 학식 웹 보면 자바스크립트 기반으로 다음 식단 보게 되어있어서 구현 힘들것 같음...)
+        #TODO 다음 주 인덱싱 처리하기 (이거 학식 웹 보면 자바스크립트 기반으로 다음 식단 보게 되어있어서 구현 힘들것 같음...) #[2]
         return response
         response = findMeal(url, restaurant, day, idx=1)
         #url 셀렉터에서 헨들링할까..
@@ -181,3 +181,13 @@ if __name__ == "__main__":
 # ['월', '2022-11-14', '화', '2022-11-15', '수', '2022-11-16', '목', '2022-11-17', '금', '2022-11-18', '토', '2022-11-19', '일', '2022-11-20']
 # 이후 우리는 홀수번째 인덱스의 값만 필요하므로 filter 함수와 lambda 함수를 사용해 주었는데, 
 # 이제 우리는 이를 이용해 우리가 원하는 리스트의 인덱스를 알아낼 수 있다.
+
+
+
+#[2]
+# https://stackoverflow.com/questions/69215705/scrapy-beautifulsoup-simulating-clicking-a-button-in-order-to-load-a-section-o#:~:text=soup%3DBeautifulSoup(driver.page_source)-,If%20You%20Want%20To,python%20using%20requests%20lib,-Share
+# "If You Want To Avoid Selenium:
+# The "Load More" button on the site you've linked is using AJAX requests to load more data. If you really want to avoid using Selenium then you could try to use the requests library to replicate the same AJAX request that the button making when it is clicked.
+# You'll need to monitor the network tab in your browser to figure out the necessary headers. It's likely going to take some fiddling to get it just right.
+# Potentially Relevant:
+# Simulating ajax request with python using requests lib"
