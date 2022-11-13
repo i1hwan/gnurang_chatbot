@@ -19,7 +19,7 @@ def getMeal():
     print(f"[수신] Parameters: {body['action']['params']}")
     print(f"[수신] 대화내용: {body['userRequest']['utterance']}")
     try: 
-        day = body['action']['params']['sys_date']  # 기본값이 'today'가 전달된다면 [dateTag]가 없으므로 에러 발생
+        day = body['action']['params']['sys_date']  # 기본값인 'today'가 전달된다면 [dateTag]가 없으므로 에러 발생
     except Exception as e: print(f"[수신] 오류: {e}"); day = 'today'
         
     if day == 'today':  # 예상치 못했던 부분이라 원래 코드 수정하는 대신 한글화
@@ -401,7 +401,8 @@ def getNews():
     
     responseBody = {
                 "version": "2.0",
-                "template": {
+                "template": 
+                {
                     "outputs": response
                 }
                 }

@@ -294,29 +294,46 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     return response, True
 
 
-def findNews (url: str = "https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=1126", scraping_news_count: int = 5) -> dict:
-    scraping_news_count = 4  # 스크래핑할 뉴스의 개수
-    category = ["기관", "학사", "장학"]  # DEVELOPING...
-    html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
-    tbody = html.find_all("tbody")
-    newsList = tbody[0].find_all("tr")
-    # print(f"[정보] tbody = {tbody}")
-    
+def findNews (scraping_news_count: int = 5) -> dict:
     items = []
-    # for i in range(len(category)):  DEVELOPING...
-    item = []
-    for i in range(scraping_news_count):
-        newsNum = newsList[i].find_all('td')[0].text
-        newsContent = newsList[i].find_all('td')[1].text.strip()
-        # print(f"[정보] newsList = {newsList[0].find_all('td')[1].text}")
-        print(f"[정보] newsNum{i} = {newsNum}")
-        print(f"[정보] newsContent{i} = {newsContent}")
-        temp = {
-            "title": newsContent,
-            "description": "개발중입니다..."
-        }
-        item.append(temp)
-    items.append(item)
+    category = ["기관", "학사", "장학"]  # DEVELOPING...
+    urls = ["https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=1126","https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1029&mi=1127","https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1075&mi=1376"]  # 기관, 학사, 장학 공지사항의 url
+    for i in range(len(category)):
+        print(f"i = {i}, category = {category}")
+        html = bs4.BeautifulSoup(urllib.request.urlopen(urls[i]), "html.parser")  # https://itsaessak.tistory.com/295
+        print("WWW")
+        tbody = html.find_all("tbody")
+        newsList = tbody[0].find_all("tr")
+        # print(f"[정보] tbody = {tbody}")
+        
+        # for i in range(len(category)):  DEVELOPING...
+        scrapRange = scraping_news_count; cnt = 0; item = []
+        print(f"cnt = {cnt}, scrapRange = {scrapRange}")
+        while cnt < scrapRange:
+            newsNum = newsList[cnt].find_all('td')[0].text
+            if newsNum == "공지":
+                scrapRange += 1
+                cnt += 1
+                continue
+            newsContent = newsList[cnt].find_all('td', {"class": "ta_l"})[0].text.strip()
+            newsLink = "https://www.gnu.ac.kr/main/na/ntt/selectNttInfo.do" + "?nttSn=" + str(newsList[cnt].find_all('a')[0].get('data-id'))
+            news = bs4.BeautifulSoup(urllib.request.urlopen(newsLink), "html.parser")
+            newsDescription = news.find_all("tr", {"class":"cont"})[0].text.strip()
+            # print(f"[정보] newsList = {newsList[0].find_all('td')[1].text}")
+            print(f"[정보] newsNum{cnt} = {newsNum}")
+            print(f"[정보] newsContent{cnt} = {newsContent}")
+            print(f"[정보] newsLink{cnt} = {newsLink}")
+            print(f"[정보] newsDescription{cnt} = {newsDescription}")
+            temp = {
+                "title": newsContent,
+                "description": newsDescription,
+            }
+            item.append(temp)
+            print(f"[정보] cnt = {cnt}")
+            cnt += 1
+        print(f"[정보] while end, scraping_news_count = {scraping_news_count}")
+        items.append(item)
+        
         
     # for i in range(scraping_news_count):
     #     title = tbody[0].find_all("a")[i].text
@@ -330,30 +347,58 @@ def findNews (url: str = "https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbs
                     {
                         "carousel": {
                         "type": "listCard",
-                        "items": [
+                        "items": 
+                    [
+                        {
+                            "header": 
                             {
-                            "header": {
                                 "title": "공지 - 기관 (1/3)"
                             },
-                            "items": items[0]
+                                "items": items[0],
+                                "buttons": 
+                                [
+                                    {
+                                        "action":  "webLink",
+                                        "label": "더보기",
+                                        "webLinkUrl": urls[0]
+                                    }
+                                ]
                             },
                             {
-                            "header": {
-                                "title": "개발중입니다.. - 학사  (2/3)"
+                            "header": 
+                            {
+                                "title": "공지 - 학사 (2/3)"
                             },
-                            "items": items[0]
+                            "items": items[1],
+                                "buttons": 
+                                [
+                                    {
+                                        "action":  "webLink",
+                                        "label": "더보기",
+                                        "webLinkUrl": urls[1]
+                                    }
+                                ]
                             },
                             {
-                            "header": {
-                                "title": "개발중입니다.. - 장학 (3/3)"
+                            "header": 
+                            {
+                                "title": "공지 - 장학 (3/3)"
                             },
-                            "items": items[0]
+                            "items": items[2],
+                                "buttons": 
+                                [
+                                    {
+                                        "action":  "webLink",
+                                        "label": "더보기",
+                                        "webLinkUrl": urls[2]
+                                    }
+                                ]
                             }
-                        ]
-                        }
-                    }
-                ]
-    
+                    ]
+                }
+            }
+        ]
+
     
     
     
@@ -373,10 +418,11 @@ if __name__ == "__main__":
     date = "오늘"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
-    print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
-    print(findMeal(urlSelector(campus, restaurant), restaurant, date))
+    
+    # print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
+    # print(findMeal(urlSelector(campus, restaurant), restaurant, date))
     print("FINDNEWS #########################")
-    print(findNews("https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=1126"))
+    print(findNews())
 
 
 #[1]
