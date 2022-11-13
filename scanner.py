@@ -162,31 +162,18 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "\n");parsed_menu = parsed_menu.replace("<br/>", "\n");parsed_menu = parsed_menu.replace("</br>", "\n");parsed_menu = parsed_menu.strip()
             if i == 1 and len(parsed_menu) > 1:  # Customized for 중앙식당
                 parsed_menu = parsed_menu.split("\n")
-                parsed_menu.insert(0, "(한식)")
-                parsed_menu.insert(2, "(양식)")
+                parsed_menu.insert(0, "\n(한식)")
+                parsed_menu.insert(2, "\n(양식)")
                 print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
-                response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
+                response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
             elif i == 2:  # Customized for 중앙식당
                 parsed_menu = parsed_menu.split("\n")
                 print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
-                response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
+                response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
             
             else:
                 print(f"[정보] menu_meal{col + (7 * i)} = {parsed_menu}")
-                response += str(parsed_menu) + "\n"
-            
-            responseBody = {
-                "version": "2.0",
-                "template": {
-                    "outputs": [
-                        {
-                            "simpleText": {
-                                "text": response
-                            }
-                        }
-                    ]
-                }
-            }
+                response += str(parsed_menu) + "\n\n"
             
             # = 아무런 정보가 없는 경우!! =
         if len(parsed_menu) < 1:
@@ -196,7 +183,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     # TODO 다른 식당도 추가하기
 
 
-    return responseBody, True
+    return response, True
 
 
 if __name__ == "__main__":

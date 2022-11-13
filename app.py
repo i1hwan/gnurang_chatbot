@@ -40,7 +40,95 @@ def getMeal():
     response = findMeal(urlSelector(campusName, restaurantName), restaurantName, day)
     if restaurantName == '중앙1식당':  # Optimized for 중앙1식당
         if response[1] == True:  # 학식을 찾았을 경우에 대한 응답 JSON
-            responseBody = response[0]  # Optimized for 중앙1식당
+            responseBody = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                    {
+                        "simpleText": {
+                                            "text": response[0]
+                                        }
+                    },
+                    {
+                        "carousel": {
+                        "type": "listCard",
+                        "items": [
+                            {
+                            "header": {
+                                "title": "고정매뉴 09:00~18:00 (1/2)"
+                            },
+                            "items": [
+                                {
+                                "title": "중앙김밥",
+                                "description": "1,500원",
+                                "imageUrl": "https://i.imgur.com/1ZQ3Z4u.jpg"
+                                },
+                                {
+                                "title": "땡초, 치즈, 참치김밥",
+                                "description": "2,000원",
+                                },
+                                {
+                                "title": "참치치즈, 땡초치즈, 땡초참치김밥",
+                                "description": "2,500원",
+                                },
+                                {
+                                "title": "갈릭 베이컨 토마토",
+                                "description": "5,800원",
+                                "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_04.jpg"
+                                }
+                            ],
+                            "buttons": [
+                                {
+                                "label": "더보기",
+                                "action": "message",
+                                "messageText" : "샌드위치 더보기"
+                                }
+                            ]
+                            },
+                            {
+                            "header": {
+                                "title": "고정메뉴 09:00~18:00 (2/2)"
+                            },
+                            "items": [
+                                {
+                                "title": "중앙라면",
+                                "description": "2,000원",
+                                },
+                                {
+                                "title": "치즈, 땡초, 만두라면",
+                                "description": "2,500원",
+                                },
+                                {
+                                "title": "공기밥",
+                                "description": "500원",
+                                }
+                            ]
+                            }
+                        ]
+                        },
+                        
+                    },
+                    
+                    ],
+                    "quickReplies": [
+                    {
+                        "messageText": "인기 메뉴",
+                        "action": "message",
+                        "label": "인기 메뉴"
+                    },
+                    {
+                        "messageText": "최근 주문",
+                        "action": "message",
+                        "label": "최근 주문"
+                    },
+                    {
+                        "messageText": "장바구니",
+                        "action": "message",
+                        "label": "장바구니"
+                    }
+                    ]
+                }
+                }
         elif response[1] == False:  # 학식을 찾지 못했을 경우에 대한 응답 JSON
             responseBody = {
                 "version": "2.0",
