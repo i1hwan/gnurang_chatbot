@@ -232,7 +232,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
         # print(f"[정보] menu_meal{col + (7 * i)} = {menu_meal[col + (7 * i)].text}")
         for i in range(len(menu_category)):  # -> [아침, 점심, 저녁]
             menu_type = str(menu_meal[col + (7 * i)].find_all('p', {"class": "fm_tit_p mgt15"})).replace("[", "").replace("]", "").replace('<p class="fm_tit_p mgt15">', "").replace('</p>', "").replace(',',"").split()  # 데이터 가공
-            menu_detail = str(menu_meal[col + (7 * i)].find_all('p', {"class": ""})).replace("[", "").replace("]", "").replace('<p class="">', "").replace('</p>', "").replace("<br>", " ").replace("</br>"," ").replace("<br/>"," ").split(",")  # 데이터 가공
+            menu_detail = str(menu_meal[col + (7 * i)].find_all('p', {"class": ""})).replace("[", "").replace("]", "").replace('<p class="">', "").replace('</p>', "").replace("<br>", "\n").replace("</br>","\n").replace("<br/>","\n").split(",")  # 데이터 가공
             print(f'[정보] raw menu_meal = {menu_meal[col + (7 * i)].find_all("p", {"class": "fm_tit_p mgt15"})}')
             print(f"""[정보] menu_type = {menu_type}""")
             print(f"""[정보] menu_detail = {menu_detail}""")
