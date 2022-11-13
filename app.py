@@ -141,6 +141,56 @@ def getMeal():
                     ]
                 }
                 }
+        elif restaurantName == '교육문화1층식당':  # Optimized for 교육문화1층식당
+                responseBody = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                    {
+                        "simpleText": {
+                                            "text": response[0]
+                                        }
+                    }
+                    ],
+                    "quickReplies": [
+                        {   # https://devtalk.kakao.com/t/id/112787
+                            "action": "block",
+                            "blockId": blockid,
+                            "label": "처음으로 돌아가기 🏠"
+                        },
+                        {
+                            "messageText": "내일 " + restaurantName,
+                            "action": "message",
+                            "label": "내일은?"
+                        },
+                        {
+                            "messageText": "월요일 " + restaurantName,
+                            "action": "message",
+                            "label": "월"
+                        },
+                        {
+                            "messageText": "화요일 " + restaurantName,
+                            "action": "message",
+                            "label": "화"
+                        },
+                        {
+                            "messageText": "수요일 " + restaurantName,
+                            "action": "message",
+                            "label": "수"
+                        },
+                        {
+                            "messageText": "목요일 " + restaurantName,
+                            "action": "message",
+                            "label": "목"
+                        },
+                        {
+                            "messageText": "금요일 " + restaurantName,
+                            "action": "message",
+                            "label": "금"
+                        }
+                    ]
+                }
+                }
     if response[1] == False:  # 학식을 찾지 못했을 경우에 대한 응답 JSON
         responseBody = {  # TODO 내일의 학식을 받은 상태에서 그 날의 내일. 즉, 모레의 학식도 받을 수 있도록 수정
             "version": "2.0",
