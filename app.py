@@ -19,22 +19,20 @@ def getMeal():
     print(f"[수신] Parameters: {body['action']['params']}")
     print(f"[수신] 대화내용: {body['userRequest']['utterance']}")
     try: 
-        day = body['action']['params']['sys_date']['dateTag']  # 기본값이 'today'가 전달된다면 [dateTag]가 없으므로 에러 발생
-        if day == 'tomorrow': day = '내일'
-        elif day == 'Monday': day = '월'
-        elif day == 'Tuesday': day = '화'
-        elif day == 'Wednesday': day = '수'
-        elif day == 'Thursday': day = '목'
-        elif day == 'Friday': day = '금'
-        elif day == 'Saturday': day = '토'
-        elif day == 'Sunday': day = '일'
-    except: 
-        try: # 예상치 못했던 부분이라 원래 코드 수정하는 대신 한글화
-            day = body['action']['params']['sys_date']
-            if day == 'today':  # 예상치 못했던 부분이라 원래 코드 수정하는 대신 한글화
+        day = body['action']['params']['sys_date']  # 기본값이 'today'가 전달된다면 [dateTag]가 없으므로 에러 발생
+        if day == 'today':  # 예상치 못했던 부분이라 원래 코드 수정하는 대신 한글화
                 day = '오늘'
-
-        except Exception as e: print(f"[수신] 오류: {e}"); day = 'today'
+        else:
+            day.split()[3].replace("\"", "").replace(",","")
+            if day == 'tomorrow': day = '내일'
+            elif day == 'Monday': day = '월'
+            elif day == 'Tuesday': day = '화'
+            elif day == 'Wednesday': day = '수'
+            elif day == 'Thursday': day = '목'
+            elif day == 'Friday': day = '금'
+            elif day == 'Saturday': day = '토'
+            elif day == 'Sunday': day = '일'
+    except Exception as e: print(f"[수신] 오류: {e}"); day = 'today'
     print(f"[수신] 요청날짜: {day}")
     try: campusName = body['action']['params']['campusName']
     except Exception as e: print(f"[수신] 오류: {e}"); campusName = '가좌캠퍼스'
