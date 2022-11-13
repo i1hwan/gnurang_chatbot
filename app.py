@@ -43,6 +43,8 @@ def getMeal():
     elif restaurantName == '통영 학생식당' or restaurantName == '통영 교직원식당' or restaurantName == '통영 생활관 식당': blockid = '636cf02f3236e276c315bdf3'  # 통영 메인메뉴
     else: blockid = '636c6383a197ae433d32dee0'  # 기본 메인메뉴
     print(f"[송신] 블록ID: {blockid}")
+    print(f"restaurantName: {restaurantName}")
+    print(f"response[1]: {response[1]}")
     if response[1] == True:  # 학식을 찾았을 경우에 대한 응답 JSON
         if restaurantName == '중앙1식당':  # Optimized for 중앙1식당
             responseBody = {
@@ -142,56 +144,58 @@ def getMeal():
                 }
                 }
         elif restaurantName == '교육문화1층식당':  # Optimized for 교육문화1층식당
-                responseBody = {
-                "version": "2.0",
-                "template": {
-                    "outputs": [
+            print(f"[정보] 교육문화1층식당 response")
+            responseBody = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                {
+                    "simpleText": {
+                                        "text": response[0]
+                                    }
+                }
+                ],
+                "quickReplies": [
+                    {   # https://devtalk.kakao.com/t/id/112787
+                        "action": "block",
+                        "blockId": blockid,
+                        "label": "처음으로 돌아가기 🏠"
+                    },
                     {
-                        "simpleText": {
-                                            "text": response[0]
-                                        }
+                        "messageText": "내일 " + restaurantName,
+                        "action": "message",
+                        "label": "내일은?"
+                    },
+                    {
+                        "messageText": "월요일 " + restaurantName,
+                        "action": "message",
+                        "label": "월"
+                    },
+                    {
+                        "messageText": "화요일 " + restaurantName,
+                        "action": "message",
+                        "label": "화"
+                    },
+                    {
+                        "messageText": "수요일 " + restaurantName,
+                        "action": "message",
+                        "label": "수"
+                    },
+                    {
+                        "messageText": "목요일 " + restaurantName,
+                        "action": "message",
+                        "label": "목"
+                    },
+                    {
+                        "messageText": "금요일 " + restaurantName,
+                        "action": "message",
+                        "label": "금"
                     }
-                    ],
-                    "quickReplies": [
-                        {   # https://devtalk.kakao.com/t/id/112787
-                            "action": "block",
-                            "blockId": blockid,
-                            "label": "처음으로 돌아가기 🏠"
-                        },
-                        {
-                            "messageText": "내일 " + restaurantName,
-                            "action": "message",
-                            "label": "내일은?"
-                        },
-                        {
-                            "messageText": "월요일 " + restaurantName,
-                            "action": "message",
-                            "label": "월"
-                        },
-                        {
-                            "messageText": "화요일 " + restaurantName,
-                            "action": "message",
-                            "label": "화"
-                        },
-                        {
-                            "messageText": "수요일 " + restaurantName,
-                            "action": "message",
-                            "label": "수"
-                        },
-                        {
-                            "messageText": "목요일 " + restaurantName,
-                            "action": "message",
-                            "label": "목"
-                        },
-                        {
-                            "messageText": "금요일 " + restaurantName,
-                            "action": "message",
-                            "label": "금"
-                        }
-                    ]
-                }
-                }
+                ]
+            }
+            }
         elif restaurantName == '가좌 교직원식당':  # Optimized for 가좌 교직원식당
+            print(f"[정보] 가좌 교직원식당 response")
             responseBody = {
             "version": "2.0",
             "template": {
