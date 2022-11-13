@@ -60,7 +60,7 @@ def getMeal():
                         "items": [
                             {
                             "header": {
-                                "title": "고정메뉴 09:00~18:00 (1/2)"
+                                "title": "[고정메뉴 09:00~18:00] (1/2)"
                             },
                             "items": [
                                 {
@@ -79,7 +79,7 @@ def getMeal():
                             },
                             {
                             "header": {
-                                "title": "고정메뉴 09:00~18:00 (2/2)"
+                                "title": "[고정메뉴 09:00~18:00] (2/2)"
                             },
                             "items": [
                                 {
@@ -103,8 +103,7 @@ def getMeal():
                     
                     ],
                     "quickReplies": [
-                        {
-                            "messageText": "처음으로 돌아가기 🏠",  # https://devtalk.kakao.com/t/id/112787
+                        {   # https://devtalk.kakao.com/t/id/112787
                             "action": "block",
                             "blockid": blockid,
                             "label": "처음으로 돌아가기 🏠"
@@ -155,7 +154,6 @@ def getMeal():
                     ],
                     "quickReplies": [
                         {
-                            "messageText": "처음으로 돌아가기 🏠",
                             "action": "block",
                             "blockid": blockid,
                             "label": "처음으로 돌아가기 🏠"
