@@ -206,7 +206,12 @@ def TEST():
                     "title": "소이라떼",
                     "description": "2,200원",
                     "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_08.jpg"
-                    }
+                    },
+                    {
+                    "simpleText": {
+                                "text": "Hello, Aorld!"
+                            }
+                }
                 ],
                 "buttons": [
                     {
