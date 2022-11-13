@@ -20,7 +20,7 @@ def urlSelector(campus: str, restaurant: str) -> str:
     elif restaurant == "교육문화1층식당":
         return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=63"
     elif restaurant == "가좌 교직원식당":
-        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=4&schDt=2022-11-07"
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=4"
     elif restaurant == "가좌 생활관 식당":
         return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=47"
     # elif campus == "칠암캠퍼스":  # Deprecated
@@ -298,17 +298,11 @@ def findNews (scraping_news_count: int = 3) -> dict:
     items = []
     category = ["기관", "학사", "장학"]  # DEVELOPING...
     urls = ["https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=1126","https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1029&mi=1127","https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1075&mi=1376"]  # 기관, 학사, 장학 공지사항의 url
-    for i in range(len(category)):
-        print(f"i = {i}, category = {category}")
+    for i in range(3):
         html = bs4.BeautifulSoup(urllib.request.urlopen(urls[i]), "html.parser")  # https://itsaessak.tistory.com/295
-        print("WWW")
         tbody = html.find_all("tbody")
         newsList = tbody[0].find_all("tr")
-        # print(f"[정보] tbody = {tbody}")
-        
-        # for i in range(len(category)):  DEVELOPING...
         scrapRange = scraping_news_count; cnt = 0; item = []
-        print(f"cnt = {cnt}, scrapRange = {scrapRange}")
         while cnt < scrapRange:
             newsNum = newsList[cnt].find_all('td')[0].text
             if newsNum == "공지":
@@ -318,7 +312,7 @@ def findNews (scraping_news_count: int = 3) -> dict:
             newsContent = newsList[cnt].find_all('td', {"class": "ta_l"})[0].text.strip()
             newsLink = "https://www.gnu.ac.kr/main/na/ntt/selectNttInfo.do" + "?nttSn=" + str(newsList[cnt].find_all('a')[0].get('data-id'))
             news = bs4.BeautifulSoup(urllib.request.urlopen(newsLink), "html.parser")
-            newsDescription = news.find_all("tr", {"class":"cont"})[0].text.strip()[0:30]
+            newsDescription = news.find_all("tr", {"class":"cont"})[0].text.strip()[0:40]
             # print(f"[정보] newsList = {newsList[0].find_all('td')[1].text}")
             # print(f"[정보] newsNum{cnt} = {newsNum}")
             # print(f"[정보] newsContent{cnt} = {newsContent}")
@@ -329,9 +323,8 @@ def findNews (scraping_news_count: int = 3) -> dict:
                 "description": newsDescription
             }
             item.append(temp)
-            print(f"[정보] cnt = {cnt}")
             cnt += 1
-        print(f"[정보] while end, scraping_news_count = {scraping_news_count}")
+        # print(f"[정보] while end, scraping_news_count = {scraping_news_count}")
         items.append(item)
         
         
@@ -414,7 +407,7 @@ def findNews (scraping_news_count: int = 3) -> dict:
 if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
-    restaurant = "가좌 생활관 식당"
+    restaurant = "가좌 교직원식당"
     date = "오늘"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
