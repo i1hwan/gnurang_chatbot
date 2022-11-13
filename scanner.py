@@ -208,7 +208,7 @@ if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
     restaurant = "가좌 교직원식당"
-    date = "화"
+    date = "오늘"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
     print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
