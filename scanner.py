@@ -282,7 +282,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                         ]
                         },
                     },
-                    ]
+                    ],
             # = 아무런 정보가 없는 경우!! =
         if len(response) <= 0:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")

@@ -292,7 +292,9 @@ def getMeal():
                     ]
                 }
                 }
-        return responseBody
+            print(f"[정보] responseBody: {responseBody}")
+            print("[정보] 가좌 생활관 식당 responseBody SEND")
+            return responseBody
     if response[1] == False:  # 학식을 찾지 못했을 경우에 대한 응답 JSON
         responseBody = {  # TODO 내일의 학식을 받은 상태에서 그 날의 내일. 즉, 모레의 학식도 받을 수 있도록 수정
             "version": "2.0",
