@@ -294,7 +294,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     return response, True
 
 
-def findNews (scraping_news_count: int = 5) -> dict:
+def findNews (scraping_news_count: int = 4) -> dict:
     items = []
     category = ["기관", "학사", "장학"]  # DEVELOPING...
     urls = ["https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=1126","https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1029&mi=1127","https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1075&mi=1376"]  # 기관, 학사, 장학 공지사항의 url
