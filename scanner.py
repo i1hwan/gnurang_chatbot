@@ -219,7 +219,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             # = 아무런 정보가 없는 경우!! =
         if len(response) <= 45:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")
-            response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
+            response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날이거나 학식 정보가 추가되지 않은것 같아..."
             return response, False
     # == 아람관 식단 체크 ===================================================
     elif restaurant == "가좌 생활관 식당":
