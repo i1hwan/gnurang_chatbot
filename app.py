@@ -399,7 +399,7 @@ def getNews():
                     "outputs": response[0]
                 }
                 }
-
+    print(f"[정보] responseBody: {responseBody}")
     return responseBody
 
 
