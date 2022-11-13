@@ -145,6 +145,7 @@ def getMeal():
                     ]
                 }
                 }
+            return responseBody
         elif restaurantName == '교육문화1층식당':  # Optimized for 교육문화1층식당
             print(f"[정보] 교육문화1층식당 response")
             responseBody = {
@@ -196,6 +197,7 @@ def getMeal():
                     ]
                 }
                 }
+            return responseBody
         elif restaurantName == '가좌 교직원식당':  # Optimized for 가좌 교직원식당
             print(f"[정보] 가좌 교직원식당 response")
             responseBody = {
@@ -403,7 +405,14 @@ def getNews():
                 "version": "2.0",
                 "template": 
                 {
-                    "outputs": response
+                    "outputs": response,
+                    "quickReplies": [
+                        {   # https://devtalk.kakao.com/t/id/112787
+                            "action": "message",  # 나중에 이것도 원래 홈으로 돌아가게 만들거임
+                            # "blockId": blockid,
+                            "label": "처음으로 돌아가기 🏠"
+                        },
+                    ]
                 }
                 }
     print(f"[정보] responseBody: {responseBody}")
