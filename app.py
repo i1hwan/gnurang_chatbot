@@ -15,7 +15,7 @@ def hello_world():
 @app.route('/api/getMeal', methods=['POST'])
 def getMeal():
     body = request.get_json()
-    # print(f"[수신] BODY: {body}")
+    print(f"[수신] BODY: {body}")
     print(f"[수신] Parameters: {body['action']['params']}")
     print(f"[수신] 대화내용: {body['userRequest']['utterance']}")
     try: 
@@ -38,6 +38,10 @@ def getMeal():
     except Exception as e: print(f"[수신] 오류: {e}"); campusName = '가좌캠퍼스'
     restaurantName = body['action']['params']['restaurantName']
     response = findMeal(urlSelector(campusName, restaurantName), restaurantName, day)
+    if restaurantName == '중앙1식당' or restaurantName == '교육문화1층식당' or restaurantName == '가좌 교직원식당' or restaurantName == '가좌 생활관 식당': blockid = '636cee971a94d93e86de3ecb'  # 가좌 메인메뉴
+    elif restaurantName == '칠암 학생식당' or restaurantName == '칠암 교직원식당' or restaurantName == '칠암 제1생활관 식당' or restaurantName == '칠암 제2생활관 식당': blockid = '636cf0041a94d93e86de3ed4'  # 칠암 메인메뉴
+    elif restaurantName == '통영 학생식당' or restaurantName == '통영 교직원식당' or restaurantName == '통영 생활관 식당': blockid = '636cf02f3236e276c315bdf3'  # 통영 메인메뉴
+    else: blockid = '636c6383a197ae433d32dee0'  # 기본 메인메뉴
     if restaurantName == '중앙1식당':  # Optimized for 중앙1식당
         if response[1] == True:  # 학식을 찾았을 경우에 대한 응답 JSON
             responseBody = {
@@ -98,26 +102,47 @@ def getMeal():
                     
                     ],
                     "quickReplies": [
-                    {
-                        "messageText": "인기 메뉴",
-                        "action": "message",
-                        "label": "인기 메뉴"
-                    },
-                    {
-                        "messageText": "최근 주문",
-                        "action": "message",
-                        "label": "최근 주문"
-                    },
-                    {
-                        "messageText": "장바구니",
-                        "action": "message",
-                        "label": "장바구니"
-                    }
+                        {
+                            "messageText": "처음으로 돌아가기 🏠",  # https://devtalk.kakao.com/t/id/112787
+                            "action": "block",
+                            "blockid": blockid,
+                            "label": "처음으로 돌아가기 🏠"
+                        },
+                        {
+                            "messageText": "내일 " + restaurantName,
+                            "action": "message",
+                            "label": "내일은?"
+                        },
+                        {
+                            "messageText": "월요일 " + restaurantName,
+                            "action": "message",
+                            "label": "월"
+                        },
+                        {
+                            "messageText": "화요일 " + restaurantName,
+                            "action": "message",
+                            "label": "화"
+                        },
+                        {
+                            "messageText": "수요일 " + restaurantName,
+                            "action": "message",
+                            "label": "수"
+                        },
+                        {
+                            "messageText": "목요일 " + restaurantName,
+                            "action": "message",
+                            "label": "목"
+                        },
+                        {
+                            "messageText": "금요일 " + restaurantName,
+                            "action": "message",
+                            "label": "금"
+                        }
                     ]
                 }
                 }
         elif response[1] == False:  # 학식을 찾지 못했을 경우에 대한 응답 JSON
-            responseBody = {
+            responseBody = {  # TODO 내일의 학식을 받은 상태에서 그 날의 내일. 즉, 모레의 학식도 받을 수 있도록 수정
                 "version": "2.0",
                 "template": {
                     "outputs": [
@@ -130,36 +155,37 @@ def getMeal():
                     "quickReplies": [
                         {
                             "messageText": "처음으로 돌아가기 🏠",
-                            "action": "message",
+                            "action": "block",
+                            "blockid": blockid,
                             "label": "처음으로 돌아가기 🏠"
                         },
                         {
-                            "messageText": "내일 " + body['userRequest']['utterance'],
+                            "messageText": "내일 " + restaurantName,
                             "action": "message",
                             "label": "내일은?"
                         },
                         {
-                            "messageText": "월요일 " + body['userRequest']['utterance'],
+                            "messageText": "월요일 " + restaurantName,
                             "action": "message",
                             "label": "월"
                         },
                         {
-                            "messageText": "화요일 " + body['userRequest']['utterance'],
+                            "messageText": "화요일 " + restaurantName,
                             "action": "message",
                             "label": "화"
                         },
                         {
-                            "messageText": "수요일 " + body['userRequest']['utterance'],
+                            "messageText": "수요일 " + restaurantName,
                             "action": "message",
                             "label": "수"
                         },
                         {
-                            "messageText": "목요일 " + body['userRequest']['utterance'],
+                            "messageText": "목요일 " + restaurantName,
                             "action": "message",
                             "label": "목"
                         },
                         {
-                            "messageText": "금요일 " + body['userRequest']['utterance'],
+                            "messageText": "금요일 " + restaurantName,
                             "action": "message",
                             "label": "금"
                         }
