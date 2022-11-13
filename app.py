@@ -23,7 +23,7 @@ def getMeal():
         if day == 'today':  # 예상치 못했던 부분이라 원래 코드 수정하는 대신 한글화
                 day = '오늘'
         else:
-            day.split()[3].replace("\"", "").replace(",","")
+            day = day.split()[3].replace("\"", "").replace(",","")
             if day == 'tomorrow': day = '내일'
             elif day == 'Monday': day = '월'
             elif day == 'Tuesday': day = '화'
