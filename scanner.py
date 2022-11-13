@@ -175,6 +175,19 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                 print(f"[정보] menu_meal{col + (7 * i)} = {parsed_menu}")
                 response += str(parsed_menu) + "\n"
             
+            responseBody = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": response
+                            }
+                        }
+                    ]
+                }
+            }
+            
             # = 아무런 정보가 없는 경우!! =
         if len(parsed_menu) < 1:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다.")
@@ -183,14 +196,14 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     # TODO 다른 식당도 추가하기
 
 
-    return response, True
+    return responseBody, True
 
 
 if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
     restaurant = "중앙1식당"
-    date = "오늘"
+    date = "내일"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
     print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
