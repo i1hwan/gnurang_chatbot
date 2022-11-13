@@ -252,7 +252,7 @@ def getMeal():
             responseBody = {
                 "version": "2.0",
                 "template": {
-                    "outputs": response,
+                    "outputs": response[0],
                     "quickReplies": [
                         {   # https://devtalk.kakao.com/t/id/112787
                             "action": "block",

@@ -265,7 +265,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                             "header": {
                                 "title": "아침 (1/3)"
                             },
-                            "items": items[0]
+                            "items": items[0],
                             },
                             {
                             "header": {
