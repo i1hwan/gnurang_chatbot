@@ -11,32 +11,52 @@ from datetime import date as daze
 
 # 캠퍼스와 식당에 따른 크롤링 url 반환 (아람은 아예 다르게 처리해야 할듯)
 def urlSelector(campus: str, restaurant: str) -> str:
-    # 가좌캠퍼스 : 중앙1식당, 교육문화센터, 교직원식당, 아람관. 칠암 : 학생식당, 교직원식당. 통영: 학생식당, 교직원식당.
+    # 가좌캠퍼스(1341, None) : 중앙1식당 = 5, 교육문화센터 = 63, 교직원식당 = 4, 아람관 = 47. 칠암(1342, cdorm) : 학생식당 = 8, 교직원식당 = 6. 통영(1343, tdorm): 학생식당 = 7, 교직원식당 = 9.
+    # 쿼리 문자열 매개변수로 들어갈 수 있는 값. mi: 캠퍼스고유번호(1341, ...), restSeq: 식당고유번호(5, 63, ...), schDt: 날짜(2022-11-21, ...), schSysId: 캠퍼스고유이름(가좌: ?, 칠암: cdorm, 통영: tdorm)
     if campus == "가좌캠퍼스":
         if restaurant == "중앙1식당":
             return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=5"
         elif restaurant == "교육문화센터":
-            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=6"
+            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=63"
         elif restaurant == "교직원식당":
-            return 0
-        elif restaurant == "아람관":
-            return 0
+            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=4"
+        elif restaurant == "가좌 생활관 식당":
+            return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=47"
         else: 
             print(f"[오류] {campus}에는 {restaurant}가 존재하지 않습니다.")
+            return -1
     elif campus == "칠암캠퍼스":  # Deprecated
-        pass
+        if restaurant == "학생식당":
+            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=cdorm&mi=1342&restSeq=8"
+        elif restaurant == "교직원식당":
+            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=cdorm&mi=1342&restSeq=6"
+        elif restaurant == "칠암 제1생활관 식당":
+            return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=48"
+        elif restaurant == "칠암 제2생활관 식당":
+            return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=49"
+        else: 
+            print(f"[오류] {campus}에는 {restaurant}가 존재하지 않습니다.")
+            return -1
     elif campus == "통영캠퍼스":  # Deprecated
-        pass
+        if restaurant == "학생식당":
+            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=tdorm&mi=1343&restSeq=7"
+        elif restaurant == "교직원식당":
+            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=tdorm&mi=1343&restSeq=9"
+        elif restaurant == "통영 생활관 식당":
+            return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=50"
+        else: 
+            print(f"[오류] {campus}에는 {restaurant}가 존재하지 않습니다.")
+            return -1
     else:
         print(f"[오류] campus : {campus} 는 확인할 수 없거나 없는 캠퍼스입니다.")
         return -1
 
 
 # url을 받아서 해당 url의 식단을 반환  # https://naon.me/posts/til18
-def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0) -> str | bool:
+def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUrl: str = "") -> str | bool:
     # TODO 만약 날짜가 리스트에 없다면 양 끝 날짜 확인 후 더 가까운 쪽의 페이지로 이동하도록 만들기.
     
-    print("[정보] findMeal 시작")
+    print(f"[정보] findMeal 시작 | {idx+1}번째 시도입니다.")
     # == 날짜 체크 ===============================================================
     print("[정보] 날짜 체크를 시작합니다...")
     # 학교 공식 식단리스트에 접근해 표의 날짜 리스트 [구분, 월, 화, 수, 목, 금, 토, 일]를 가져옴
@@ -82,15 +102,31 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0) -> st
         print(f"[성공] {nowTime}은 col = {col}열에 있습니다.")
     except Exception as e:
         print(f"[실패] {e} : dateli 리스트에 {nowTime}이 없습니다.")  # 없으면 에러 출력
-        pass  #TODO 에러 처리 후 다시 돌아가 다음 주 인덱싱하게 만들기. 최대 3번.
-        print(f"[정보] 다음 주 인덱싱을 시도합니다.")
-        response = "다음 주 확인하기 기능은 아직 개발중인 기능 입니다!"
-        #TODO 다음 주 인덱싱 처리하기 (이거 학식 웹 보면 자바스크립트 기반으로 다음 식단 보게 되어있어서 구현 힘들것 같음...) #[2]
+        pass  
+        print(f"[정보] 다른 날 인덱싱을 시도합니다.")
+        # 다음 주 URL 생성 - 웹 사이트가.. 참 복잡하다. 🥲
+        if not idx == 0:  # idx가 0이 아니면  # 앞선 주로 이동
+            url = oriUrl + '&schDt' + dateli[6].replace("일","").lstrip()  #[3] 6번째 인덱스는 일요일 이지만 URL 상에선 다음 주 페이지가 로딩됨
+        else:  # 최초 실행 시
+            oriUrl = url  # 원래 URL을 oriUrl에 저장
+            if dateli[0].replace("월","").lstrip() > nowTime.split()[1]:  # 월요일 날짜가 오늘 날짜보다 작으면  -> nowTime = '일 2022-11-13' ->split()-> ['일', '2022-11-13'] ->idx[] ->  '2022-11-13'
+                print(f"[정보] 월요일 날짜가 오늘 날짜보다 작습니다. {nowTime} < {dateli[0]}, 이전 주로 이동합니다.")
+                temp_dateli = list(map(int, dateli[0].replace("월","").lstrip().split('-')))  # -> ['2022', '11', '14']
+                temp_dateli[2] -= 2  # 일자에서 이틀을 뺌 # 이번주 월요일 -> 저번주 토요일
+                url = url + '&schDt=' + "-".join(list(map(str, temp_dateli)))  # -> '2022-11-12'  # 찾고자 하는 날짜가 파싱된 월요일보다 작은 날짜면, 월요일 날짜를 URL에 넣어 이전 주로 넘어감 # https://blockdmask.tistory.com/468
+            else:  # .replace("[", "").replace("]", "").replace("'", "").replace(",", "")
+                print(f"[정보] 월요일 날짜가 오늘 날짜보다 큽니다. {nowTime} > {dateli[6]}, 다음 주로 이동합니다.")
+                url = url + '&schDt=' + dateli[6].replace("일","").lstrip()  #[3] 6번째 인덱스는 일요일 이지만 URL 상에선 다음 주 페이지가 로딩됨
+        idx += 1  # 무한 반복을 막기 위해 실행 카운트 증가
+        print(f"[정보] oriUrl = {oriUrl} \n -> url = {url} 로 변경되었습니다. ")
+        response = findMeal(url, restaurant, day, idx, oriUrl)
         return response
-        response = findMeal(url, restaurant, day, idx=1)
+        # [완료] TODO 다음 주 인덱싱 처리하기 (이거 학식 웹 보면 자바스크립트 기반으로 다음 식단 보게 되어있어서 구현 힘들것 같음...) #[2]
+        # [완료] TODO 에러 처리 후 다시 돌아가 다음 주 인덱싱하게 만들기. 최대 3번.
+        
+        
         #url 셀렉터에서 헨들링할까..
-        return response
-        # 입력받는 날짜도 어떻게 할지 정해야함!!!! [완료]
+        # [완료] 입력받는 날짜도 어떻게 할지 정해야함!!!! 
 
     # == 날짜 체크 끝 =============================================================
 
@@ -191,3 +227,13 @@ if __name__ == "__main__":
 # You'll need to monitor the network tab in your browser to figure out the necessary headers. It's likely going to take some fiddling to get it just right.
 # Potentially Relevant:
 # Simulating ajax request with python using requests lib"
+
+
+
+#[3]
+# 학교 식단 웹 페이지에서 식단을 크롤링 해오는데, 어제는 뭔가 이상하게 식단이 크롤링 되지 않는 날이었다.
+# 같은 코드였음에도 불구하고, 어제는 식단이 크롤링 되지 않았다. 그 이유를 4시간동안 분석해 보았다.
+# 우선 학교 식단 페이지는 월요일부터 일요일까지의 식단을 한 페이지에 모두 보여준다. 즉, 한 주의 시작을 월요일로 치는 것이다.
+# 그리고 개발자 도구로 앞서 파악했던 schDt 값을 통해 알고자 하는 날짜를 입력했었는데, 여기서 문제가 발생했다.
+# 웹 URL상에서는 한 주의 시작을 일요일로 치는 것이었다. 예시를 들어 설명해 보자면, 2022년 11월 19일은 토요일, 20일은 일요일이다.
+# 그래서 22년 11월 19일(이번주 토)을 schDt 매개변수에 입력했을때, 11월 14일(이번주 월)~20일(이번주 일)까지의 식단 페이지가 나왔지만, 20일(이번주 일)을 입력했을때는 11월 21일(다음주 월)~27일(다음주 일)까지의 식단 페이지가 나왔다.
