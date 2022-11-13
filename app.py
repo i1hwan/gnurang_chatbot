@@ -215,9 +215,20 @@ def TEST():
                     "messageText" : "커피 더보기"
                     }
                 ]
+                },
+                {
+                "simpleText": {
+                                "text": "Hello, World!"
+                            }
                 }
             ]
-            }
+            },
+            
+        },
+        {
+            "simpleText": {
+                                "text": "response[0]"
+                            }
         }
         ],
         "quickReplies": [
