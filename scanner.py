@@ -177,7 +177,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                 response += str(parsed_menu) + "\n\n"
                 
             # = 아무런 정보가 없는 경우!! =
-        if len(parsed_menu) <= 86:
+        if len(response) <= 86:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다.")
             response = "학식을 찾을 수 없어요.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아요...\n"
             return response, False
@@ -191,7 +191,7 @@ if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
     restaurant = "중앙1식당"
-    date = "오늘"
+    date = "내일"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
     print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
