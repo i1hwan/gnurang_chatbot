@@ -298,11 +298,15 @@ def getMeal():
     if response[1] == False:  # 학식을 찾지 못했을 경우에 대한 응답 JSON
         responseBody = {  # TODO 내일의 학식을 받은 상태에서 그 날의 내일. 즉, 모레의 학식도 받을 수 있도록 수정
             "version": "2.0",
-            "template": {
+            "template": { #https://github.com/mtslzx/gnurang/blob/main/img/sad.png
                 "outputs": [
-                    {
-                        "simpleText": {
-                            "text": response[0]
+                        {
+                            "basicCard": {
+                            "title": "앗! 이런..",
+                            "description": response[0],
+                            "thumbnail": {
+                                "imageUrl": "https://github.com/mtslzx/gnurang/blob/main/img/sad.png"
+                            }
                         }
                     }
                 ],
