@@ -396,7 +396,7 @@ def getNews():
     responseBody = {
                 "version": "2.0",
                 "template": {
-                    "outputs": response[0]
+                    "outputs": response
                 }
                 }
     print(f"[정보] responseBody: {responseBody}")
