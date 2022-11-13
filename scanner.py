@@ -13,43 +13,37 @@ from datetime import date as daze
 def urlSelector(campus: str, restaurant: str) -> str:
     # 가좌캠퍼스(1341, None) : 중앙1식당 = 5, 교육문화센터 = 63, 교직원식당 = 4, 아람관 = 47. 칠암(1342, cdorm) : 학생식당 = 8, 교직원식당 = 6. 통영(1343, tdorm): 학생식당 = 7, 교직원식당 = 9.
     # 쿼리 문자열 매개변수로 들어갈 수 있는 값. mi: 캠퍼스고유번호(1341, ...), restSeq: 식당고유번호(5, 63, ...), schDt: 날짜(2022-11-21, ...), schSysId: 캠퍼스고유이름(가좌: ?, 칠암: cdorm, 통영: tdorm)
-    if campus == "가좌캠퍼스":
-        if restaurant == "중앙1식당":
-            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=5"
-        elif restaurant == "교육문화센터":
-            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=63"
-        elif restaurant == "교직원식당":
-            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=4"
-        elif restaurant == "가좌 생활관 식당":
-            return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=47"
-        else: 
-            print(f"[오류] {campus}에는 {restaurant}가 존재하지 않습니다.")
-            return -1
-    elif campus == "칠암캠퍼스":  # Deprecated
-        if restaurant == "학생식당":
-            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=cdorm&mi=1342&restSeq=8"
-        elif restaurant == "교직원식당":
-            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=cdorm&mi=1342&restSeq=6"
-        elif restaurant == "칠암 제1생활관 식당":
-            return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=48"
-        elif restaurant == "칠암 제2생활관 식당":
-            return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=49"
-        else: 
-            print(f"[오류] {campus}에는 {restaurant}가 존재하지 않습니다.")
-            return -1
-    elif campus == "통영캠퍼스":  # Deprecated
-        if restaurant == "학생식당":
-            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=tdorm&mi=1343&restSeq=7"
-        elif restaurant == "교직원식당":
-            return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=tdorm&mi=1343&restSeq=9"
-        elif restaurant == "통영 생활관 식당":
-            return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=50"
-        else: 
-            print(f"[오류] {campus}에는 {restaurant}가 존재하지 않습니다.")
-            return -1
-    else:
-        print(f"[오류] campus : {campus} 는 확인할 수 없거나 없는 캠퍼스입니다.")
+    # if campus == "가좌캠퍼스":  # Deprecated
+    if restaurant == "중앙1식당":
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=5"
+    elif restaurant == "교육문화1층식당":
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=63"
+    elif restaurant == "가좌 교직원식당":
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=4"
+    elif restaurant == "가좌 생활관 식당":
+        return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=47"
+    # elif campus == "칠암캠퍼스":  # Deprecated
+    elif restaurant == "칠암 학생식당":
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=cdorm&mi=1342&restSeq=8"
+    elif restaurant == "칠암 교직원식당":
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=cdorm&mi=1342&restSeq=6"
+    elif restaurant == "칠암 제1생활관 식당":
+        return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=48"
+    elif restaurant == "칠암 제2생활관 식당":
+        return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=49"
+    # elif campus == "통영캠퍼스":  # Deprecated
+    elif restaurant == "학생식당":
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=tdorm&mi=1343&restSeq=7"
+    elif restaurant == "칠암 교직원식당":
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?schSysId=tdorm&mi=1343&restSeq=9"
+    elif restaurant == "통영 생활관 식당":
+        return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=50"
+    else: 
+        print(f"[오류] {campus}에는 {restaurant}가 존재하지 않습니다.")
         return -1
+    # else:
+    #     print(f"[오류] campus : {campus} 는 확인할 수 없거나 없는 캠퍼스입니다.")
+    #     return -1
 
 
 # url을 받아서 해당 url의 식단을 반환  # https://naon.me/posts/til18

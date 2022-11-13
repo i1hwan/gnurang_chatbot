@@ -20,7 +20,8 @@ def getMeal():
     print(f"[수신] 대화내용: {body['userRequest']['utterance']}")
     try: day = body['action']['params']['sys_date']
     except Exception as e: print(f"[수신] 오류: {e}"); day = '오늘'
-    campusName = body['action']['params']['campusName']
+    try: campusName = body['action']['params']['campusName']
+    except Exception as e: print(f"[수신] 오류: {e}"); campusName = '가좌캠퍼스'
     restaurantName = body['action']['params']['restaurantName']
     response = findMeal(urlSelector(campusName, restaurantName), restaurantName, day)
     if response[1] == True:  # 학식을 찾았을 경우에 대한 응답 JSON
