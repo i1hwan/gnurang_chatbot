@@ -156,12 +156,11 @@ def TEST():
                     {
                     "title": "햄치즈",
                     "description": "4,500원",
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_01.jpg"
+                    "imageUrl": "https://i.imgur.com/1ZQ3Z4u.jpg"
                     },
                     {
                     "title": "베이컨 아보카도",
                     "description": "5,500원",
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_02.jpg"
                     },
                     {
                     "title": "에그 포테이토",
