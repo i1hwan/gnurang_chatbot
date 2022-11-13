@@ -105,7 +105,7 @@ def getMeal():
                     "quickReplies": [
                         {   # https://devtalk.kakao.com/t/id/112787
                             "action": "block",
-                            "blockid": blockid,
+                            "blockId": blockid,
                             "label": "처음으로 돌아가기 🏠"
                         },
                         {
@@ -155,7 +155,7 @@ def getMeal():
                     "quickReplies": [
                         {
                             "action": "block",
-                            "blockid": blockid,
+                            "blockId": blockid,
                             "label": "처음으로 돌아가기 🏠"
                         },
                         {
@@ -241,119 +241,42 @@ def TEST():
     print(body['userRequest']['utterance'])
 
     responseBody = {
-    "version": "2.0",
-    "template": {
-        "outputs": [
-        {
-            "carousel": {
-            "type": "listCard",
-            "items": [
-                {
-                "header": {
-                    "title": "샌드위치"
-                },
-                "items": [
-                    {
-                    "title": "햄치즈",
-                    "description": "4,500원",
-                    "imageUrl": "https://i.imgur.com/1ZQ3Z4u.jpg"
-                    },
-                    {
-                    "title": "베이컨 아보카도",
-                    "description": "5,500원",
-                    },
-                    {
-                    "title": "에그 포테이토",
-                    "description": "5,300원",
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_03.jpg"
-                    },
-                    {
-                    "title": "갈릭 베이컨 토마토",
-                    "description": "5,800원",
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_04.jpg"
-                    }
-                ],
-                "buttons": [
-                    {
-                    "label": "더보기",
-                    "action": "message",
-                    "messageText" : "샌드위치 더보기"
-                    }
-                ]
-                },
-                {
-                "header": {
-                    "title": "커피"
-                },
-                "items": [
-                    {
-                    "title": "아메리카노",
-                    "description": "1,800원",
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_05.jpg"
-                    },
-                    {
-                    "title": "카페라떼",
-                    "description": "2,000원",
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_06.jpg"
-                    },
-                    {
-                    "title": "카페모카",
-                    "description": "2,500원",
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_07.jpg"
-                    },
-                    {
-                    "title": "소이라떼",
-                    "description": "2,200원",
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_08.jpg"
-                    },
-                    {
-                    "simpleText": {
-                                "text": "Hello, Aorld!"
-                            }
-                }
-                ],
-                "buttons": [
-                    {
-                    "label": "더보기",
-                    "action": "message",
-                    "messageText" : "커피 더보기"
-                    }
-                ]
-                },
-                {
-                "simpleText": {
-                                "text": "Hello, World!"
-                            }
-                }
-            ]
+  "version": "2.0",
+  "template": {
+    "outputs": [
+      {
+        "basicCard": {
+          "title": "보물상자",
+          "description": "보물상자 안에는 뭐가 있을까",
+          "thumbnail": {
+            "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
+          },
+          "profile": {
+            "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
+            "nickname": "보물상자"
+          },
+          "social": {
+            "like": 1238,
+            "comment": 8,
+            "share": 780
+          },
+          "buttons": [
+            {
+              "action": "message",
+              "label": "열어보기",
+              "messageText": "짜잔! 우리가 찾던 보물입니다"
             },
-            
-        },
-        {
-            "simpleText": {
-                                "text": "response[0]"
-                            }
+            {
+              "action":  "webLink",
+              "label": "구경하기",
+              "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
+            }
+          ]
         }
-        ],
-        "quickReplies": [
-        {
-            "messageText": "인기 메뉴",
-            "action": "message",
-            "label": "인기 메뉴"
-        },
-        {
-            "messageText": "최근 주문",
-            "action": "message",
-            "label": "최근 주문"
-        },
-        {
-            "messageText": "장바구니",
-            "action": "message",
-            "label": "장바구니"
-        }
-        ]
-    }
-    }
+      }
+    ]
+  }
+}
 
     return responseBody
 

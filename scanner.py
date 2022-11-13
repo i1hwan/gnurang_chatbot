@@ -19,7 +19,7 @@ def urlSelector(campus: str, restaurant: str) -> str:
     elif restaurant == "교육문화1층식당":
         return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=63"
     elif restaurant == "가좌 교직원식당":
-        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=4"
+        return "https://www.gnu.ac.kr/main/ad/fm/foodmenu/selectFoodMenuView.do?mi=1341&restSeq=4&schDt=2022-11-07"
     elif restaurant == "가좌 생활관 식당":
         return "https://www.gnu.ac.kr/dorm/ad/fm/foodmenu/selectFoodMenuView.do?mi=7278&restSeq=47"
     # elif campus == "칠암캠퍼스":  # Deprecated
@@ -127,7 +127,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     # 아니 식단이 다 파편화 되어 있어서 다 따로 만들어야해 ㅋㅋㅋ
 
     # == 가좌 중앙1식당 식단 체크 ===================================================
-    response = f"{nowTime}의 {restaurant} 식단입니다!\n"
+    response = f"{nowTime}의 {restaurant} 식단이야!\n"
     print("[정보] 식단 체크를 시작합니다...")
     if restaurant == "중앙1식당":
         print("[정보] 중앙1식당 식단을 찾습니다.")
@@ -165,7 +165,6 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                 parsed_menu.insert(0, "(한식)")  
                 parsed_menu.insert(2, "@(양식)")  # \n을 여기다 바로 넣으면 문자열로 그냥 출력돼서, 리스트에 넣고 나중에 출력할때 replace로 바꿔줬음.. 왜이런거지
                 parsed_menu[parsed_menu.index('(세트메뉴)')] = '@(세트메뉴)'
-                print(f"[AAAAA] parsed_menu = {parsed_menu}")
                 print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
                 response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "").replace("@", "\n").replace("+", "+ ") + "\n\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거, //  @ -> \n, // +오므라이스 이렇게 안이쁘게 나와서 + -> + 공백 으로 고쳐줌
             elif i == 2:  # Customized for 중앙식당
@@ -179,9 +178,27 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             # = 아무런 정보가 없는 경우!! =
         if len(response) <= 86:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다.")
-            response = "학식을 찾을 수 없어요.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아요..."
+            response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
             return response, False
     # TODO 다른 식당도 추가하기
+     # == 가좌 교직원식당 식단 체크 ===================================================
+    elif restaurant == "가좌 교직원식당":
+        print("[정보] 가좌 교직원식당 식단을 찾습니다.")
+        menu = html.find_all("tbody")  # 웹 페이지에서 tbody 태그를 찾아서 menu에 저장 (식단이 있는 곳)
+        menu_category = menu[0].find_all("th")  # 웹 페이지에서 th 태그를 찾아서 menu_category에 저장 (식단 카테고리)
+        menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
+        for i in range(4): # -> [주식, 국류, 찬류, 후식]
+            print(f"[정보] menu_category{i} = {menu_category[i].text}")
+            response += "[" + menu_category[i].text + "]" + "\n"
+            parsed_menu = str(menu_meal[col + (7 * i)].extract())  # col = 0, 1, 2, 3, 4, 5, 6 (일요일 ~ 토요일) + (7 * 0~3) (조식, 중식, 석식, 특식)
+            parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "\n");parsed_menu = parsed_menu.replace("<br/>", "\n");parsed_menu = parsed_menu.replace("</br>", "\n");parsed_menu = parsed_menu.strip()
+            print(f"[정보] menu_meal{col + (7 * i)} = {parsed_menu}")
+            response += str(parsed_menu) + "\n\n"
+            # = 아무런 정보가 없는 경우!! =
+        if len(response) <= 57:
+            print(f"[경고] {nowTime}의 학식 정보가 없습니다.")
+            response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
+            return response, False
 
 
     return response, True
@@ -190,8 +207,8 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
 if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
-    restaurant = "중앙1식당"
-    date = "내일"
+    restaurant = "가좌 교직원식당"
+    date = "화"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
     print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
