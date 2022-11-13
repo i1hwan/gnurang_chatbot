@@ -55,13 +55,12 @@ def getMeal():
                         "items": [
                             {
                             "header": {
-                                "title": "고정매뉴 09:00~18:00 (1/2)"
+                                "title": "고정메뉴 09:00~18:00 (1/2)"
                             },
                             "items": [
                                 {
                                 "title": "중앙김밥",
                                 "description": "1,500원",
-                                "imageUrl": "https://i.imgur.com/1ZQ3Z4u.jpg"
                                 },
                                 {
                                 "title": "땡초, 치즈, 참치김밥",
@@ -74,7 +73,10 @@ def getMeal():
                                 {
                                 "title": "갈릭 베이컨 토마토",
                                 "description": "5,800원",
-                                "imageUrl": "https://t1.kakaocdn.net/openbuilder/docs_image/02_img_04.jpg"
+                                },
+                                {
+                                "title": "갈ㅁㄴㅁㅇ",
+                                "description": "5,80원",
                                 }
                             ],
                             "buttons": [

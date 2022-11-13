@@ -155,25 +155,29 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
         #         parsed_menu = parsed_menu.strip()  # 앞뒤 공백 제거
         #         print(f"[정보] menu_meal{j} = {parsed_menu}")  # <br>로 인해 생긴 문자열 양 옆 공백 제거 -> (str).strip 매소드 https://blockdmask.tistory.com/568
         # # = 카테고리와 식단 전부 출력하기 끝 =
-        for i in range(4): # -> [조식, 중식, 석식, 특식] (면류 비어있던데, 만약 다시 생기면 고쳐야할듯) TODO: https://kariu.tistory.com/13
+        for i in range(3): # -> [조식, 중식, 석식, 특식] (면류 비어있던데, 만약 다시 생기면 고쳐야할듯) TODO: https://kariu.tistory.com/13 # for i in range(4) -> (3) 고정메뉴 제거.
             print(f"[정보] menu_category{i} = {menu_category[i].text}")
-            response += menu_category[i].text + "\n"
+            response += "[" + menu_category[i].text + "]" + "\n"
             parsed_menu = str(menu_meal[col + (7 * i)].extract())  # col = 0, 1, 2, 3, 4, 5, 6 (일요일 ~ 토요일) + (7 * 0~3) (조식, 중식, 석식, 특식)
             parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "\n");parsed_menu = parsed_menu.replace("<br/>", "\n");parsed_menu = parsed_menu.replace("</br>", "\n");parsed_menu = parsed_menu.strip()
             if i == 1 and len(parsed_menu) > 1:  # Customized for 중앙식당
                 parsed_menu = parsed_menu.split("\n")
-                parsed_menu.insert(0, "\n(한식)")
-                parsed_menu.insert(2, "\n(양식)")
+                parsed_menu.insert(0, "(한식)")  
+                parsed_menu.insert(2, "@(양식)")  # \n을 여기다 바로 넣으면 문자열로 그냥 출력돼서, 리스트에 넣고 나중에 출력할때 replace로 바꿔줬음.. 왜이런거지
+                parsed_menu[parsed_menu.index('(세트메뉴)')] = '@(세트메뉴)'
+                print(f"[AAAAA] parsed_menu = {parsed_menu}")
                 print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
-                response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
+                response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "").replace("@", "\n").replace("+", "+ ") + "\n\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거, //  @ -> \n, // +오므라이스 이렇게 안이쁘게 나와서 + -> + 공백 으로 고쳐줌
             elif i == 2:  # Customized for 중앙식당
                 parsed_menu = parsed_menu.split("\n")
                 print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
                 response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
             
-            else:
+            elif i == 0:  # else: -> elif i == 0 # 고정메뉴가 따로 들어갔기 때문에 고정매뉴 없엠
                 print(f"[정보] menu_meal{col + (7 * i)} = {parsed_menu}")
                 response += str(parsed_menu) + "\n\n"
+                
+            print(f"response = {response}")
             
             # = 아무런 정보가 없는 경우!! =
         if len(parsed_menu) < 1:
