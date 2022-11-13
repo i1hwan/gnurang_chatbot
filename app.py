@@ -385,6 +385,39 @@ def getMeal():
 
 
 
+## 학교 뉴스 크롤링
+@app.route('/api/getNews', methods=['POST'])
+def getNews():
+    body = request.get_json()
+    print(body)
+    print(body['userRequest']['utterance'])
+    response = findNews()
+    
+    responseBody = {
+                "version": "2.0",
+                "template": {
+                    "outputs": response[0]
+                }
+                }
+
+    return responseBody
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

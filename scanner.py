@@ -232,7 +232,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
         # print(f"[정보] menu_meal{col + (7 * i)} = {menu_meal[col + (7 * i)].text}")
         for i in range(len(menu_category)):  # -> [아침, 점심, 저녁]
             menu_type = str(menu_meal[col + (7 * i)].find_all('p', {"class": "fm_tit_p mgt15"})).replace("[", "").replace("]", "").replace('<p class="fm_tit_p mgt15">', "").replace('</p>', "").replace(',',"").split()  # 데이터 가공
-            menu_detail = str(menu_meal[col + (7 * i)].find_all('p', {"class": ""})).replace("[", "").replace("]", "").replace('<p class="">', "").replace('</p>', "").replace("<br>", "\n").replace("</br>","\n").replace("<br/>","\n").split(",")  # 데이터 가공
+            menu_detail = str(menu_meal[col + (7 * i)].find_all('p', {"class": ""})).replace("[", "").replace("]", "").replace('<p class="">', "").replace('</p>', "").replace("<br>", " ").replace("</br>"," ").replace("<br/>"," ").split(",")  # 데이터 가공
             print(f'[정보] raw menu_meal = {menu_meal[col + (7 * i)].find_all("p", {"class": "fm_tit_p mgt15"})}')
             print(f"""[정보] menu_type = {menu_type}""")
             print(f"""[정보] menu_detail = {menu_detail}""")
@@ -294,6 +294,78 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     return response, True
 
 
+def findNews (url: str = "https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=1126", scraping_news_count: int = 5) -> dict:
+    scraping_news_count = 4  # 스크래핑할 뉴스의 개수
+    category = ["기관", "학사", "장학"]  # DEVELOPING...
+    html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
+    tbody = html.find_all("tbody")
+    newsList = tbody[0].find_all("tr")
+    # print(f"[정보] tbody = {tbody}")
+    
+    items = []
+    # for i in range(len(category)):  DEVELOPING...
+    item = []
+    for i in range(scraping_news_count):
+        newsNum = newsList[i].find_all('td')[0].text
+        newsContent = newsList[i].find_all('td')[1].text.strip()
+        # print(f"[정보] newsList = {newsList[0].find_all('td')[1].text}")
+        print(f"[정보] newsNum{i} = {newsNum}")
+        print(f"[정보] newsContent{i} = {newsContent}")
+        temp = {
+            "title": newsContent,
+            "description": "개발중입니다..."
+        }
+        item.append(temp)
+    items.append(item)
+        
+    # for i in range(scraping_news_count):
+    #     title = tbody[0].find_all("a")[i].text
+    #     link = "https://www.gnu.ac.kr" + tbody[0].find_all("a")[i].get("href")
+    #     print(f"[정보] title = {title}")
+    #     print(f"[정보] link = {link}")
+    #     news.append({"title": title, "link": link})
+    
+    
+    response = [
+                    {
+                        "carousel": {
+                        "type": "listCard",
+                        "items": [
+                            {
+                            "header": {
+                                "title": "공지 - 기관 (1/3)"
+                            },
+                            "items": items[0]
+                            },
+                            {
+                            "header": {
+                                "title": "공지 - 학사 (2/3)"
+                            },
+                            "items": "개발중입니다..." # items[1]
+                            },
+                            {
+                            "header": {
+                                "title": "공지 - 장학 (3/3)"
+                            },
+                            "items": "개발중입니다..." # items[2]
+                            }
+                        ]
+                        }
+                    }
+                ]
+    
+    
+    
+    
+    return response
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
@@ -303,6 +375,8 @@ if __name__ == "__main__":
     # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
     print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
     print(findMeal(urlSelector(campus, restaurant), restaurant, date))
+    print("FINDNEWS #########################")
+    print(findNews("https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=1126"))
 
 
 #[1]
