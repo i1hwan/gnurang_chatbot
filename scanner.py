@@ -320,13 +320,13 @@ def findNews (scraping_news_count: int = 5) -> dict:
             news = bs4.BeautifulSoup(urllib.request.urlopen(newsLink), "html.parser")
             newsDescription = news.find_all("tr", {"class":"cont"})[0].text.strip()
             # print(f"[정보] newsList = {newsList[0].find_all('td')[1].text}")
-            print(f"[정보] newsNum{cnt} = {newsNum}")
-            print(f"[정보] newsContent{cnt} = {newsContent}")
-            print(f"[정보] newsLink{cnt} = {newsLink}")
-            print(f"[정보] newsDescription{cnt} = {newsDescription}")
+            # print(f"[정보] newsNum{cnt} = {newsNum}")
+            # print(f"[정보] newsContent{cnt} = {newsContent}")
+            # print(f"[정보] newsLink{cnt} = {newsLink}")
+            # print(f"[정보] newsDescription{cnt} = {newsDescription}")
             temp = {
                 "title": newsContent,
-                "description": newsDescription,
+                "description": newsDescription
             }
             item.append(temp)
             print(f"[정보] cnt = {cnt}")
