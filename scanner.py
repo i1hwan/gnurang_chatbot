@@ -294,7 +294,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     return response, True
 
 
-def findNews (scraping_news_count: int = 4) -> dict:
+def findNews (scraping_news_count: int = 3) -> dict:
     items = []
     category = ["기관", "학사", "장학"]  # DEVELOPING...
     urls = ["https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1028&mi=1126","https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1029&mi=1127","https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbsId=1075&mi=1376"]  # 기관, 학사, 장학 공지사항의 url
@@ -318,7 +318,7 @@ def findNews (scraping_news_count: int = 4) -> dict:
             newsContent = newsList[cnt].find_all('td', {"class": "ta_l"})[0].text.strip()
             newsLink = "https://www.gnu.ac.kr/main/na/ntt/selectNttInfo.do" + "?nttSn=" + str(newsList[cnt].find_all('a')[0].get('data-id'))
             news = bs4.BeautifulSoup(urllib.request.urlopen(newsLink), "html.parser")
-            newsDescription = news.find_all("tr", {"class":"cont"})[0].text.strip()
+            newsDescription = news.find_all("tr", {"class":"cont"})[0].text.strip()[0:30]
             # print(f"[정보] newsList = {newsList[0].find_all('td')[1].text}")
             # print(f"[정보] newsNum{cnt} = {newsNum}")
             # print(f"[정보] newsContent{cnt} = {newsContent}")
