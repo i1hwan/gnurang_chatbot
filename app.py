@@ -69,21 +69,6 @@ def getMeal():
                                 {
                                 "title": "참치치즈, 땡초치즈, 땡초참치김밥",
                                 "description": "2,500원",
-                                },
-                                {
-                                "title": "갈릭 베이컨 토마토",
-                                "description": "5,800원",
-                                },
-                                {
-                                "title": "갈ㅁㄴㅁㅇ",
-                                "description": "5,80원",
-                                }
-                            ],
-                            "buttons": [
-                                {
-                                "label": "더보기",
-                                "action": "message",
-                                "messageText" : "샌드위치 더보기"
                                 }
                             ]
                             },

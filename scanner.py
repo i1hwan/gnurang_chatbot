@@ -172,17 +172,14 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                 parsed_menu = parsed_menu.split("\n")
                 print(str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", ""))  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
                 response += str(parsed_menu).replace("[", "").replace("]", "").replace("'", "").replace(",", "") + "\n\n"  # 리스트형을 문자열로 변환했을때 생기는 [ ] , ' 를 제거
-            
             elif i == 0:  # else: -> elif i == 0 # 고정메뉴가 따로 들어갔기 때문에 고정매뉴 없엠
                 print(f"[정보] menu_meal{col + (7 * i)} = {parsed_menu}")
                 response += str(parsed_menu) + "\n\n"
                 
-            print(f"response = {response}")
-            
             # = 아무런 정보가 없는 경우!! =
-        if len(parsed_menu) < 1:
+        if len(parsed_menu) <= 86:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다.")
-            response = "학식을 찾을 수 없어요. 아마 학식이 제공되지 않는 날인것 같아요...\n"
+            response = "학식을 찾을 수 없어요.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아요...\n"
             return response, False
     # TODO 다른 식당도 추가하기
 
@@ -194,7 +191,7 @@ if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
     restaurant = "중앙1식당"
-    date = "내일"
+    date = "오늘"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     # print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
     print(datetime.now(timezone('Asia/Seoul')).strftime('%a %Y-%m-%d'))
