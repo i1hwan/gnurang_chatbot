@@ -305,7 +305,7 @@ def getMeal():
                             "title": "앗! 이런..",
                             "description": response[0],
                             "thumbnail": {
-                                "imageUrl": "https://github.com/mtslzx/gnurang/blob/main/img/sad.png"
+                                "imageUrl": "https://github.com/mtslzx/gnurang/blob/main/img/sad.jpg"
                             }
                         }
                     }
