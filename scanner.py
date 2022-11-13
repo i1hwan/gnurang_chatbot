@@ -336,19 +336,19 @@ def findNews (url: str = "https://www.gnu.ac.kr/main/na/ntt/selectNttList.do?bbs
                                 "title": "공지 - 기관 (1/3)"
                             },
                             "items": items[0]
-                            },
-                            {
-                            "header": {
-                                "title": "공지 - 학사 (2/3)"
-                            },
-                            "items": "개발중입니다..." # items[1]
-                            },
-                            {
-                            "header": {
-                                "title": "공지 - 장학 (3/3)"
-                            },
-                            "items": "개발중입니다..." # items[2]
-                            }
+                            } #,
+                            # {
+                            # "header": {
+                            #     "title": "공지 - 학사 (2/3)"
+                            # },
+                            # "items": "개발중입니다..." # items[1]
+                            # },
+                            # {
+                            # "header": {
+                            #     "title": "공지 - 장학 (3/3)"
+                            # },
+                            # "items": "개발중입니다..." # items[2]
+                            # }
                         ]
                         }
                     }
