@@ -42,6 +42,7 @@ def getMeal():
     elif restaurantName == '칠암 학생식당' or restaurantName == '칠암 교직원식당' or restaurantName == '칠암 제1생활관 식당' or restaurantName == '칠암 제2생활관 식당': blockid = '636cf0041a94d93e86de3ed4'  # 칠암 메인메뉴
     elif restaurantName == '통영 학생식당' or restaurantName == '통영 교직원식당' or restaurantName == '통영 생활관 식당': blockid = '636cf02f3236e276c315bdf3'  # 통영 메인메뉴
     else: blockid = '636c6383a197ae433d32dee0'  # 기본 메인메뉴
+    print(f"[송신] 블록ID: {blockid}")
     if restaurantName == '중앙1식당':  # Optimized for 중앙1식당
         if response[1] == True:  # 학식을 찾았을 경우에 대한 응답 JSON
             responseBody = {
