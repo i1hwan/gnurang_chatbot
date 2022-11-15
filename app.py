@@ -372,35 +372,19 @@ def getMeal():
         pass
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     return responseBody
 
 
 
 
 
-## 학교 뉴스 크롤링
+## == getNews ==
 @app.route('/api/getNews', methods=['POST'])
-def getNews():
+def getNews():  ## 학교 뉴스 크롤링
     body = request.get_json()
     print(body)
     print(body['userRequest']['utterance'])
     response = findNews()
-    
     responseBody = {
                 "version": "2.0",
                 "template": 
@@ -437,109 +421,109 @@ def getNews():
 
 
 
-@app.route('/api/TEST', methods=['POST'])
-def TEST():
-    body = request.get_json()
-    print(body)
-    print(body['userRequest']['utterance'])
+# @app.route('/api/TEST', methods=['POST'])
+# def TEST():
+#     body = request.get_json()
+#     print(body)
+#     print(body['userRequest']['utterance'])
 
-    responseBody = {
-  "version": "2.0",
-  "template": {
-    "outputs": [
-      {
-        "basicCard": {
-          "title": "보물상자",
-          "description": "보물상자 안에는 뭐가 있을까",
-          "thumbnail": {
-            "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
-          },
-          "profile": {
-            "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
-            "nickname": "보물상자"
-          },
-          "social": {
-            "like": 1238,
-            "comment": 8,
-            "share": 780
-          },
-          "buttons": [
-            {
-              "action": "message",
-              "label": "열어보기",
-              "messageText": "짜잔! 우리가 찾던 보물입니다"
-            },
-            {
-              "action":  "webLink",
-              "label": "구경하기",
-              "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
-            }
-          ]
-        }
-      }
-    ]
-  }
-}
+#     responseBody = {
+#   "version": "2.0",
+#   "template": {
+#     "outputs": [
+#       {
+#         "basicCard": {
+#           "title": "보물상자",
+#           "description": "보물상자 안에는 뭐가 있을까",
+#           "thumbnail": {
+#             "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
+#           },
+#           "profile": {
+#             "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
+#             "nickname": "보물상자"
+#           },
+#           "social": {
+#             "like": 1238,
+#             "comment": 8,
+#             "share": 780
+#           },
+#           "buttons": [
+#             {
+#               "action": "message",
+#               "label": "열어보기",
+#               "messageText": "짜잔! 우리가 찾던 보물입니다"
+#             },
+#             {
+#               "action":  "webLink",
+#               "label": "구경하기",
+#               "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
+#             }
+#           ]
+#         }
+#       }
+#     ]
+#   }
+# }
 
-    return responseBody
-
-
+#     return responseBody
 
 
 
 
 
-## 카카오톡 이미지형 응답
-@app.route('/api/showHello', methods=['POST'])
-def showHello():
-    body = request.get_json()
-    print(body)
-    print(body['userRequest']['utterance'])
-
-    responseBody = {
-        "version": "2.0",
-        "template": {
-            "outputs": [
-                {
-                    "simpleImage": {
-                        "imageUrl": "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
-                        "altText": "hello I'm Ryan"
-                    }
-                }
-            ]
-        }
-    }
-
-    return responseBody
 
 
-@app.route('/api/getMenu', methods=['POST'])  # gnurang.azurewebsites.net/api/getMenu로 POST 할 경우 여기로 들어옴
-def getMenu():  # id, campus, restaurant, date # 여기다가 매개변수 넣을 수 있는지 잘 모르겠음.
-    body = request.get_json()
-    print(body)
-    print(body['userRequest']['utterance'])
-    # 엔티티를 캠퍼스 이름에 맞춰서 다르게 만들어 줘야할것 같은데...? 모아 놓으니 if문이 너무 길어질것 같음
-    # 일단 귀찮으니 킵고잉.
-    # id 별로 개인화 추가예정, id는 body['userRequest']['user']['id']로 가져올 수 있음. (copilot)
-    # id를 데이트베이스에 저장하고, 저장된 id에 맞는 캠퍼스를 가져오는 방식으로 개인화 가능할듯.
-    # 하지만 난, DB를 써본적이 없지.. ㅎ
-    # 그냥 캠퍼스 이름을 각각 엔티티로 만들어서, 그 엔티티를 가져오는 방식으로 개인화를 하는것도 나쁘진 않을듯.
+# ## 카카오톡 이미지형 응답
+# @app.route('/api/showHello', methods=['POST'])
+# def showHello():
+#     body = request.get_json()
+#     print(body)
+#     print(body['userRequest']['utterance'])
 
-    responseBody = {
-        "version": "2.0",
-        "template": {
-            "outputs": [
-                {
-                    "simpleImage": {
-                        "imageUrl": "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
-                        "altText": "This is Simple Alt Text Message"
-                    }
-                }
-            ]
-        }
-    }
+#     responseBody = {
+#         "version": "2.0",
+#         "template": {
+#             "outputs": [
+#                 {
+#                     "simpleImage": {
+#                         "imageUrl": "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
+#                         "altText": "hello I'm Ryan"
+#                     }
+#                 }
+#             ]
+#         }
+#     }
 
-    return responseBody
+#     return responseBody
+
+
+# @app.route('/api/getMenu', methods=['POST'])  # gnurang.azurewebsites.net/api/getMenu로 POST 할 경우 여기로 들어옴
+# def getMenu():  # id, campus, restaurant, date # 여기다가 매개변수 넣을 수 있는지 잘 모르겠음.
+#     body = request.get_json()
+#     print(body)
+#     print(body['userRequest']['utterance'])
+#     # 엔티티를 캠퍼스 이름에 맞춰서 다르게 만들어 줘야할것 같은데...? 모아 놓으니 if문이 너무 길어질것 같음
+#     # 일단 귀찮으니 킵고잉.
+#     # id 별로 개인화 추가예정, id는 body['userRequest']['user']['id']로 가져올 수 있음. (copilot)
+#     # id를 데이트베이스에 저장하고, 저장된 id에 맞는 캠퍼스를 가져오는 방식으로 개인화 가능할듯.
+#     # 하지만 난, DB를 써본적이 없지.. ㅎ
+#     # 그냥 캠퍼스 이름을 각각 엔티티로 만들어서, 그 엔티티를 가져오는 방식으로 개인화를 하는것도 나쁘진 않을듯.
+
+#     responseBody = {
+#         "version": "2.0",
+#         "template": {
+#             "outputs": [
+#                 {
+#                     "simpleImage": {
+#                         "imageUrl": "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
+#                         "altText": "This is Simple Alt Text Message"
+#                     }
+#                 }
+#             ]
+#         }
+#     }
+
+#     return responseBody
 
 # def findMenu(campus, restaurant, date):
 #     web = requests.get('https://www.dongguk.edu/mbs/kr/jsp/board/list.jsp?boardId=2168&menuCd=DOM_0000001000000000010')
