@@ -32,7 +32,7 @@ def getNews():  ## 학교 뉴스 크롤링
                                     ]
                                 }
                     }
-    print(f"[정보] responseBody: {responseBody}")
+    print(f"[정보] SEND responseBody: {responseBody}")
     return responseBody
 
 
