@@ -337,7 +337,7 @@ def getNewsItem (p: int, url: str, scraping_news_count: int, items: dict) -> lis
 
 
 
-def findNews (scraping_news_count: int = 3) -> dict:
+def findNews (scraping_news_count: int = 2) -> dict:
     print("[시작] findNews() 함수 #############################")
     starttime = time.time()
     # News preview를 일일히 다 들어가서 파싱하다보니 필연적으로 굉장히 느려짐..
