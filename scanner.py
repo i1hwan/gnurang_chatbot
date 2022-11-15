@@ -324,13 +324,14 @@ def getNewsItem (p: int, url: str, scraping_news_count: int, items: dict) -> lis
             "title": newsContent,
             "description": newsDescription
         }
-        print(f"[정보] pid = {p} ######################## \ntitle = {newsContent}\ndescription = {newsDescription}\n")
+        # print(f"[정보] pid = {p} ######################## \ntitle = {newsContent}\ndescription = {newsDescription}\n")
         item.append(temp)
         cnt += 1
     # items[p] = item
     # items.put(item)
     items.append(item)
     print(f"[종료] getNewsItem() 함수 pid= {p} #############################")
+    return 0
     
     
 
@@ -380,6 +381,7 @@ def findNews (scraping_news_count: int = 3) -> dict:
     P0.start();P1.start();P2.start()
     P0.join();P1.join();P2.join()
     
+    print("[정보] itemlst <- item0, item1, item2")
     itemslst.append(list(item0));itemslst.append(list(item1));itemslst.append(list(item2))
         
     
