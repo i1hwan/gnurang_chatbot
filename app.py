@@ -3,13 +3,39 @@ import bs4
 from scanner import *
 # Jsonify? https://growingsaja.tistory.com/299
 
-app = Flask(__name__)
+app = Flask(__name__)  # https://m.blog.naver.com/21ahn/221830372908
 
 # Welcome, you are now connected to log-streaming service.
 
 @app.route('/')
 def hello_world():
     return 'Hello, World!'
+
+## == getNews ==
+@app.route('/api/getNews', methods=['POST'])
+def getNews():  ## 학교 뉴스 크롤링
+    body = request.get_json()
+    print(body)
+    print(body['userRequest']['utterance'])
+    response = findNews()
+    responseBody = {
+                    "version": "2.0",
+                    "template": 
+                                {
+                                    "outputs": response,
+                                    "quickReplies": [
+                                        {   # https://devtalk.kakao.com/t/id/112787
+                                            "action": "message",  # 나중에 이것도 원래 홈으로 돌아가게 만들거임
+                                            # "blockId": blockid,
+                                            "label": "처음으로 돌아가기 🏠"
+                                        },
+                                    ]
+                                }
+                    }
+    print(f"[정보] responseBody: {responseBody}")
+    return responseBody
+
+
 
 #  === getMEAL ===
 @app.route('/api/getMeal', methods=['POST'])
@@ -378,29 +404,6 @@ def getMeal():
 
 
 
-## == getNews ==
-@app.route('/api/getNews', methods=['POST'])
-def getNews():  ## 학교 뉴스 크롤링
-    body = request.get_json()
-    print(body)
-    print(body['userRequest']['utterance'])
-    response = findNews()
-    responseBody = {
-                "version": "2.0",
-                "template": 
-                {
-                    "outputs": response,
-                    "quickReplies": [
-                        {   # https://devtalk.kakao.com/t/id/112787
-                            "action": "message",  # 나중에 이것도 원래 홈으로 돌아가게 만들거임
-                            # "blockId": blockid,
-                            "label": "처음으로 돌아가기 🏠"
-                        },
-                    ]
-                }
-                }
-    print(f"[정보] responseBody: {responseBody}")
-    return responseBody
 
 
 
