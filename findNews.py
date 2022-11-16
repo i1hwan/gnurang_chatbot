@@ -1,5 +1,4 @@
 import bs4
-import urllib
 import requests
 import multiprocessing  # For Performance
 import time # For check Performance
@@ -144,21 +143,23 @@ def findNews (scraping_news_count: int = 2) -> dict:
     #     print(f"[정보] title = {title}")
     #     print(f"[정보] link = {link}")
     #     news.append({"title": title, "link": link})
-    
-    
-    response = [
-                    {
-                        "carousel": {
+    responseBody = {
+        "version": "2.0",
+        "template":
+        {
+            "outputs": [
+                {
+                    "carousel": {
                         "type": "listCard",
-                        "items": 
-                    [
-                        {
-                            "header": 
+                        "items":
+                        [
                             {
-                                "title": "공지 - 기관 (1/3)"
-                            },
+                                "header":
+                                {
+                                    "title": "공지 - 기관 (1/3)"
+                                },
                                 "items": itemslst[0],
-                                "buttons": 
+                                "buttons":
                                 [
                                     {
                                         "action":  "webLink",
@@ -168,12 +169,12 @@ def findNews (scraping_news_count: int = 2) -> dict:
                                 ]
                             },
                             {
-                            "header": 
-                            {
-                                "title": "공지 - 학사 (2/3)"
-                            },
-                            "items": itemslst[1],
-                                "buttons": 
+                                "header":
+                                {
+                                    "title": "공지 - 학사 (2/3)"
+                                },
+                                "items": itemslst[1],
+                                "buttons":
                                 [
                                     {
                                         "action":  "webLink",
@@ -183,12 +184,12 @@ def findNews (scraping_news_count: int = 2) -> dict:
                                 ]
                             },
                             {
-                            "header": 
-                            {
-                                "title": "공지 - 장학 (3/3)"
-                            },
-                            "items": itemslst[2],
-                                "buttons": 
+                                "header":
+                                {
+                                    "title": "공지 - 장학 (3/3)"
+                                },
+                                "items": itemslst[2],
+                                "buttons":
                                 [
                                     {
                                         "action":  "webLink",
@@ -197,17 +198,27 @@ def findNews (scraping_news_count: int = 2) -> dict:
                                     }
                                 ]
                             }
-                    ]
+                        ]
+                    }
                 }
-            }
-        ]
+            ],
+            "quickReplies": [
+                {   # https://devtalk.kakao.com/t/id/112787
+                    "action": "message",  # 나중에 이것도 원래 홈으로 돌아가게 만들거임
+                    # "blockId": blockid,
+                    "label": "처음으로 돌아가기 🏠"
+                },
+            ]
+        }
+    }
+    
 
     
     
     endtime = time.time()
     print(f"[정보] {__name__} 실행시간 = {endtime - starttime}초")
     print("[종료] findNews() 함수 #########")
-    return response
+    return responseBody
 
 
 

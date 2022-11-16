@@ -31,22 +31,8 @@ def getNews():  ## 학교 뉴스 크롤링
     print(body)
     print(body['userRequest']['utterance'])
     response = findNews()
-    responseBody = {
-                    "version": "2.0",
-                    "template": 
-                                {
-                                    "outputs": response,
-                                    "quickReplies": [
-                                        {   # https://devtalk.kakao.com/t/id/112787
-                                            "action": "message",  # 나중에 이것도 원래 홈으로 돌아가게 만들거임
-                                            # "blockId": blockid,
-                                            "label": "처음으로 돌아가기 🏠"
-                                        },
-                                    ]
-                                }
-                    }
-    print(f"[정보] SEND responseBody: {responseBody}")
-    return responseBody
+    print(f"[정보] SEND responseBody: {response}")
+    return response
 
 
 
