@@ -7,14 +7,6 @@ from scanner import *
 from flask import Flask
 from flask_caching import Cache  # https://flask-caching.readthedocs.io/en/latest/
 
-    # from werkzeug.contrib.cache import SimpleCache
-    # cache = SimpleCache()
-    # rv = cache.get('my-item')
-    # if rv is None:
-    #     rv = calculate_value()
-    #     cache.set('my-item', rv, timeout=5 * 60)
-    # return rv
-
 config = {
     "DEBUG": True,          # some Flask specific configs
     "CACHE_TYPE": "SimpleCache",  # Flask-Caching related configs
@@ -24,7 +16,7 @@ app = Flask(__name__)  # https://m.blog.naver.com/21ahn/221830372908
 # tell Flask to use the above defined config
 app.config.from_mapping(config)
 cache = Cache(app)
-cache.get()
+
 # Welcome, you are now connected to log-streaming service.
 
 @app.route('/')
