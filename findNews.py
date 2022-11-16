@@ -83,13 +83,14 @@ def findNews (scraping_news_count: int = 2) -> dict:
     # for process in worker:
     #     process.join()  # 메모리 누수 방지를 위해 프로세스 완료 후 종료
     
-    
+    print("[정보] multiprocessing 생성")
     P0 = multiprocessing.Process(target=getNewsItem, args=(0,urls[0], scraping_news_count ,item0))
     P1 = multiprocessing.Process(target=getNewsItem, args=(1,urls[1], scraping_news_count ,item1))
     P2 = multiprocessing.Process(target=getNewsItem, args=(2,urls[2], scraping_news_count ,item2))
-    
+    print("[정보] multiprocessing 시작")
     P0.start();P1.start();P2.start()
     P0.join();P1.join();P2.join()
+    print("[정보] multiprocessing 종료")
     
     print("[정보] itemlst <- item0, item1, item2")
     itemslst.append(list(item0));itemslst.append(list(item1));itemslst.append(list(item2))
