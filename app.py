@@ -1,5 +1,5 @@
 from flask import Flask, request
-import bs4
+from findNews import *
 from scanner import *
 # Jsonify? https://growingsaja.tistory.com/299
 
