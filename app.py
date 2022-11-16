@@ -25,7 +25,6 @@ def hello_world():
 
 ## == getNews ==
 @app.route('/api/getNews', methods=['POST'])
-@cache.cached(timeout=300)
 def getNews():  ## 학교 뉴스 크롤링
     body = request.get_json()
     print(body)
@@ -37,7 +36,7 @@ def getNews():  ## 학교 뉴스 크롤링
     print(f"[정보] cache = {cache}")
     print(f"[정보] cache.get('getNews') = {cache.get('getNews')}")
     print(f"[정보] SEND responseBody: {response}")
-    return cache.get('getNews')
+    return response
 
 
 
