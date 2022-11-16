@@ -33,7 +33,7 @@ def hello_world():
 
 ## == getNews ==
 @app.route('/api/getNews', methods=['POST'])
-@cache.cached(timeout=5 * 60)
+@cache.cached(timeout=300)
 def getNews():  ## 학교 뉴스 크롤링
     body = request.get_json()
     print(body)
