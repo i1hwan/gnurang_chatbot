@@ -53,6 +53,7 @@ def findNews (scraping_news_count: int = 2) -> dict:
     # 캐시 시스템을 도입해야할듯
     # 아니면 뭔가 다른거라도... 있다면?
     
+
     
     
     itemslst = []
