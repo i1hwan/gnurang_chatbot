@@ -213,6 +213,19 @@ def findNews (scraping_news_count: int = 2) -> dict:
             ]
         }
     }
+    responseBody = {  # FTCS - For Test Cache System
+        "version": "2.0",
+        "template": {
+            "outputs": [
+                {
+                    "simpleImage": {
+                        "imageUrl": "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
+                        "altText": "hello I'm Ryan"
+                    }
+                }
+            ]
+        }
+    }
     
 
     

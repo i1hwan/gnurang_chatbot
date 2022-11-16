@@ -8,7 +8,7 @@ from flask import Flask
 from flask_caching import Cache  # https://flask-caching.readthedocs.io/en/latest/
 
 config = {
-    "DEBUG": True,          # some Flask specific configs
+    "DEBUG": False,          # some Flask specific configs
     "CACHE_TYPE": "SimpleCache",  # Flask-Caching related configs
     "CACHE_DEFAULT_TIMEOUT": 43200
 }
