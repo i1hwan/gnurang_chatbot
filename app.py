@@ -1,9 +1,21 @@
-from flask import Flask, request
+from flask import Flask
 from findNews import *
 from scanner import *
 # Jsonify? https://growingsaja.tistory.com/299
 
+
+from flask import Flask
+from flask_caching import Cache  # https://flask-caching.readthedocs.io/en/latest/
+
+config = {
+    "DEBUG": True,          # some Flask specific configs
+    "CACHE_TYPE": "SimpleCache",  # Flask-Caching related configs
+    "CACHE_DEFAULT_TIMEOUT": 43200
+}
 app = Flask(__name__)  # https://m.blog.naver.com/21ahn/221830372908
+# tell Flask to use the above defined config
+app.config.from_mapping(config)
+cache = Cache(app)
 
 # Welcome, you are now connected to log-streaming service.
 
@@ -13,6 +25,7 @@ def hello_world():
 
 ## == getNews ==
 @app.route('/api/getNews', methods=['POST'])
+@cache.cached(timeout=50)
 def getNews():  ## 학교 뉴스 크롤링
     body = request.get_json()
     print(body)
