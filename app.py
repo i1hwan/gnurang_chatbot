@@ -34,6 +34,8 @@ def getNews():  ## 학교 뉴스 크롤링
         print("캐시된 값이 없습니다. -> findNews() 함수 실행")
         cache.set('getNews', findNews())
     response = cache.get('getNews')
+    print(f"[정보] cache = {cache}")
+    print(f"[정보] cache.get('getNews') = {cache.get('getNews')}")
     print(f"[정보] SEND responseBody: {response}")
     return cache.get('getNews')
 
