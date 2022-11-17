@@ -413,57 +413,63 @@ def getMeal():
 
 
 
+def testing():
+    responseBody = {
+        "version": "2.0",
+        "template": {
+            "outputs": [
+            {
+                "basicCard": {
+                "title": "보물상자",
+                "description": "보물상자 안에는 뭐가 있을까",
+                "thumbnail": {
+                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
+                },
+                "profile": {
+                    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
+                    "nickname": "보물상자"
+                },
+                "social": {
+                    "like": 1238,
+                    "comment": 8,
+                    "share": 780
+                },
+                "buttons": [
+                    {
+                    "action": "message",
+                    "label": "열어보기",
+                    "messageText": "짜잔! 우리가 찾던 보물입니다"
+                    },
+                    {
+                    "action":  "webLink",
+                    "label": "구경하기",
+                    "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
+                    }
+                ]
+                }
+            }
+            ]
+        }
+        }
+    return responseBody
 
 
 
 
 
+@app.route('/api/TEST', methods=['POST'])
+def TEST():
+    body = request.get_json()
+    print(body)
+    print(body['userRequest']['utterance'])
+    if cache.get('TEST') is None:
+        print("캐시된 값이 없습니다. -> TEST() 함수 실행")
+        cache.set('TEST', testing())
+    response = cache.get('TEST')
+    print(f"[정보] cache = {cache}")
+    print(f"[정보] cache.get('TEST') = {cache.get('TEST')}")
 
-# @app.route('/api/TEST', methods=['POST'])
-# def TEST():
-#     body = request.get_json()
-#     print(body)
-#     print(body['userRequest']['utterance'])
-
-#     responseBody = {
-#   "version": "2.0",
-#   "template": {
-#     "outputs": [
-#       {
-#         "basicCard": {
-#           "title": "보물상자",
-#           "description": "보물상자 안에는 뭐가 있을까",
-#           "thumbnail": {
-#             "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
-#           },
-#           "profile": {
-#             "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
-#             "nickname": "보물상자"
-#           },
-#           "social": {
-#             "like": 1238,
-#             "comment": 8,
-#             "share": 780
-#           },
-#           "buttons": [
-#             {
-#               "action": "message",
-#               "label": "열어보기",
-#               "messageText": "짜잔! 우리가 찾던 보물입니다"
-#             },
-#             {
-#               "action":  "webLink",
-#               "label": "구경하기",
-#               "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
-#             }
-#           ]
-#         }
-#       }
-#     ]
-#   }
-# }
-
-#     return responseBody
+    return response
 
 
 
