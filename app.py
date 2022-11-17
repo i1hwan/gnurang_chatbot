@@ -414,7 +414,7 @@ def getMeal():
 
 
 def testing():
-    responseBody ={
+    responseBody = {
         "version": "2.0",
         "template":
         {
@@ -429,10 +429,11 @@ def testing():
                                 {
                                     "title": "공지 - 기관 (1/3)"
                                 },
-                                "items": {
-                                            "title": "newsContent",
-                                            "description": "newsDescription"
-                                        },
+                                "items": 
+                                {
+                                    "title": "newsContent",
+                                    "description": "newsDescription"
+                                },
                                 "buttons":
                                 [
                                     {
@@ -447,10 +448,11 @@ def testing():
                                 {
                                     "title": "공지 - 학사 (2/3)"
                                 },
-                                "items": {
-                                            "title": "newsContent",
-                                            "description": "newsDescription"
-                                        },
+                                "items": 
+                                {
+                                    "title": "newsContent",
+                                    "description": "newsDescription"
+                                },
                                 "buttons":
                                 [
                                     {
@@ -465,10 +467,11 @@ def testing():
                                 {
                                     "title": "공지 - 장학 (3/3)"
                                 },
-                                "items": {
-                                            "title": "newsContent",
-                                            "description": "newsDescription"
-                                        },
+                                "items": 
+                                {
+                                    "title": "newsContent",
+                                    "description": "newsDescription"
+                                },
                                 "buttons":
                                 [
                                     {
@@ -543,15 +546,19 @@ def TEST():
     # if cache.get('TEST') is None:
     #     print("캐시된 값이 없습니다. -> TEST() 함수 실행")
     #     cache.set('TEST', testing())
-    # response = cache.get('TEST')
+    # responseBody = cache.get('TEST')
     # print(f"[정보] cache = {cache}")
     # print(f"[정보] cache.get('TEST') = {cache.get('TEST')}")
     # Non Cache Test ==========================================
-    response = testing()
-    print(f"[정보] response = {response}")
-    return response
+    responseBody = testing()
+    print(f"[정보] responseBody = {responseBody}")
+    return responseBody
 
-
+@app.route('/api/delCache', methods=['POST'])
+def delCache():
+    cache.delete('getNews')
+    cache.delete('TEST')
+    return "캐시 삭제 완료"
 
 
 
