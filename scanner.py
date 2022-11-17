@@ -186,7 +186,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             return response, False
     # TODO 다른 식당도 추가하기
      # == 모든 교직원식당 식단 체크 ===================================================
-    elif restaurant == "가좌 교직원식당" or restaurant == "칠암 교직원식당" or restaurant == "통영 교직원식당":
+    elif restaurant == "가좌 교직원식당" or restaurant == "칠암 교직원식당" or restaurant == "통영 교직원식당" or restaurant == "칠암 학생식당" or restaurant == "통영 학생식당" or restaurant == "칠암 제1생활관 식당":
         print("[정보] 가좌, 칠암, 통영 교직원식당 식단을 찾습니다.")
         menu = html.find_all("tbody")  # 웹 페이지에서 tbody 태그를 찾아서 menu에 저장 (식단이 있는 곳)
         menu_category = menu[0].find_all("th")  # 웹 페이지에서 th 태그를 찾아서 menu_category에 저장 (식단 카테고리)

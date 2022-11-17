@@ -230,7 +230,7 @@ def getMeal():
                 }
                 }
             return responseBody
-        elif restaurantName == '가좌 교직원식당' or restaurantName == '칠암 교직원식당' or restaurantName == '통영 교직원식당':  # Optimized for 교직원식당
+        elif restaurantName == '가좌 교직원식당' or restaurantName == '칠암 교직원식당' or restaurantName == '통영 교직원식당' or restaurant == "칠암 학생식당" or restaurant == "통영 학생식당" or restaurant == "칠암 제1생활관 식당":  # Optimized for 교직원식당
             print(f"[정보] 교직원식당 response")
             responseBody = {
                 "version": "2.0",
