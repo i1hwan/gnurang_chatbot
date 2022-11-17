@@ -1,12 +1,16 @@
-# Gnurang
+# 지누랑! (gnurang)
+![](https://img.shields.io/github/deployments/mtslzx/gnurang/Production?label=Deploy&logo=Microsoft%20Azure&style=flat-square) ![](https://img.shields.io/github/languages/top/mtslzx/gnurang?logo=Python&logoColor=ffffff&style=flat-square) ![](https://img.shields.io/github/languages/code-size/mtslzx/gnurang?color=00ABB3&style=flat-square) ![](https://img.shields.io/tokei/lines/github/mtslzx/gnurang?color=00ABB3&style=flat-square)<br>
+카카오톡 기반의 경상국립대학교의 캐릭터 "지누"를 활용한 공지사항 및 학식정보 제공 챗봇입니다.
+
+
+
+
+
+
+
+
+# gnurang!
 A Chatbot for Gyeongsang National University
-
-
-
-
-
-
-
 ### Deploy a Python (Flask) web app to Azure App Service - Sample Application
 
 This is the sample Flask application for the Azure Quickstart [Deploy a Python (Django or Flask) web app to Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/quickstart-python).  For instructions on how to create the Azure resources and deploy the application to Azure, refer to the Quickstart article.
