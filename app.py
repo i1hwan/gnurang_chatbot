@@ -539,10 +539,11 @@ def TEST():
     body = request.get_json()
     print(body)
     print(body['userRequest']['utterance'])
-    if cache.get('TEST') is None:
-        print("캐시된 값이 없습니다. -> TEST() 함수 실행")
-        cache.set('TEST', testing())
-    response = cache.get('TEST')
+    # if cache.get('TEST') is None:
+    #     print("캐시된 값이 없습니다. -> TEST() 함수 실행")
+    #     cache.set('TEST', testing())
+    # response = cache.get('TEST')
+    response = testing()
     print(f"[정보] cache = {cache}")
     print(f"[정보] cache.get('TEST') = {cache.get('TEST')}")
 
