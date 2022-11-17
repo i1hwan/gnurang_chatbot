@@ -10,11 +10,13 @@ from flask_caching import Cache  # https://flask-caching.readthedocs.io/en/lates
 config = {
     "DEBUG": False,          # some Flask specific configs
     "CACHE_TYPE": "SimpleCache",  # Flask-Caching related configs
-    "CACHE_DEFAULT_TIMEOUT": 43200
+    "CACHE_DEFAULT_TIMEOUT": 43200,
+    "JSON_SORT_KEYS": False
 }
 app = Flask(__name__)  # https://m.blog.naver.com/21ahn/221830372908
 # tell Flask to use the above defined config
 app.config.from_mapping(config)
+# app.config['JSON_SORT_KEYS'] = False
 cache = Cache(app)
 
 # Welcome, you are now connected to log-streaming service.
