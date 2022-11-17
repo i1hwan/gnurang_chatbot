@@ -96,6 +96,14 @@ def findNews (scraping_news_count: int = 2) -> dict:
     print("[정보] itemlst <- item0, item1, item2")
     itemslst.append(list(item0));itemslst.append(list(item1));itemslst.append(list(item2))
         
+        
+        
+    # print(f"itemslist0 = {itemslst[0]}")
+    # print(f"itemslist00 = {itemslst[0][0]}")
+    
+    # print(f"itemslist1 = {itemslst[1]}")
+    # print(f"itemslist11 = {itemslst[1][0]}")
+    
     
     # for i in range(3):  큐에 적용됐던 코드
     #     itemslst.append(items.get())
@@ -160,7 +168,7 @@ def findNews (scraping_news_count: int = 2) -> dict:
                                 {
                                     "title": "공지 - 기관 (1/3)"
                                 },
-                                "items": itemslst[0],
+                                "items": itemslst[0][0],
                                 "buttons":
                                 [
                                     {
@@ -175,7 +183,7 @@ def findNews (scraping_news_count: int = 2) -> dict:
                                 {
                                     "title": "공지 - 학사 (2/3)"
                                 },
-                                "items": itemslst[1],
+                                "items": itemslst[1][0],
                                 "buttons":
                                 [
                                     {
@@ -190,7 +198,7 @@ def findNews (scraping_news_count: int = 2) -> dict:
                                 {
                                     "title": "공지 - 장학 (3/3)"
                                 },
-                                "items": itemslst[2],
+                                "items": itemslst[2][0],
                                 "buttons":
                                 [
                                     {
