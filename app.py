@@ -33,7 +33,7 @@ def getNews():  ## 학교 뉴스 크롤링
     print(body['userRequest']['utterance'])
     if cache.get('getNews') is None:
         print("캐시된 값이 없습니다. -> findNews() 함수 실행")
-        cache.set('getNews', findNews())
+        cache.set('getNews', findNews(5))
     response = cache.get('getNews')
     print(f"[정보] cache = {cache}")
     print(f"[정보] cache.get('getNews') = {cache.get('getNews')}")

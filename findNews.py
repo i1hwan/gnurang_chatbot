@@ -4,7 +4,7 @@ import multiprocessing  # For Performance
 import time # For check Performance
 
 print(f"[정보] multiprocessing.cpu_count() = {multiprocessing.cpu_count()}\n[정보] time = {time.time()}\n[정보] findNews.py Imported")
-
+# ==== getNewsItem() ================================================================
 def getNewsItem (p: int, url: str, scraping_news_count: int, items: dict) -> list:
     print("[시작] getNewsItem() 함수 #############################")
     print(f"[정보] p = {p}, url = {url}, scraping_news_count = {scraping_news_count}, items = {items}")
@@ -45,8 +45,8 @@ def getNewsItem (p: int, url: str, scraping_news_count: int, items: dict) -> lis
     
 
 
-
-def findNews (scraping_news_count: int = 2) -> dict:
+# ==== findNews() =================================
+def findNews (scraping_news_count: int = 3) -> dict:
     print("[시작] findNews() 함수 #############################")
     starttime = time.time()
     # News preview를 일일히 다 들어가서 파싱하다보니 필연적으로 굉장히 느려짐..
