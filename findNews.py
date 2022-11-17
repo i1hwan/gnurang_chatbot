@@ -32,7 +32,7 @@ def getNewsItem (p: int, url: str, scraping_news_count: int, items: dict) -> lis
         temp = {
             "title": newsContent,
             "description": newsDescription
-        }
+        },
         # print(f"[정보] pid = {p} ######################## \ntitle = {newsContent}\ndescription = {newsDescription}\n")
         item.append(temp)
         cnt += 1

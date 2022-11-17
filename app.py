@@ -414,43 +414,120 @@ def getMeal():
 
 
 def testing():
-    responseBody = {
+    responseBody ={
         "version": "2.0",
-        "template": {
+        "template":
+        {
             "outputs": [
-            {
-                "basicCard": {
-                "title": "보물상자",
-                "description": "보물상자 안에는 뭐가 있을까",
-                "thumbnail": {
-                    "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
-                },
-                "profile": {
-                    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
-                    "nickname": "보물상자"
-                },
-                "social": {
-                    "like": 1238,
-                    "comment": 8,
-                    "share": 780
-                },
-                "buttons": [
-                    {
-                    "action": "message",
-                    "label": "열어보기",
-                    "messageText": "짜잔! 우리가 찾던 보물입니다"
-                    },
-                    {
-                    "action":  "webLink",
-                    "label": "구경하기",
-                    "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
+                {
+                    "carousel": {
+                        "type": "listCard",
+                        "items":
+                        [
+                            {
+                                "header":
+                                {
+                                    "title": "공지 - 기관 (1/3)"
+                                },
+                                "items": {
+                                            "title": "newsContent",
+                                            "description": "newsDescription"
+                                        },
+                                "buttons":
+                                [
+                                    {
+                                        "action":  "webLink",
+                                        "label": "더보기",
+                                        "webLinkUrl": "https://www.gnu.ac.kr"
+                                    }
+                                ]
+                            },
+                            {
+                                "header":
+                                {
+                                    "title": "공지 - 학사 (2/3)"
+                                },
+                                "items": {
+                                            "title": "newsContent",
+                                            "description": "newsDescription"
+                                        },
+                                "buttons":
+                                [
+                                    {
+                                        "action":  "webLink",
+                                        "label": "더보기",
+                                        "webLinkUrl": "https://www.naver.com"
+                                    }
+                                ]
+                            },
+                            {
+                                "header":
+                                {
+                                    "title": "공지 - 장학 (3/3)"
+                                },
+                                "items": {
+                                            "title": "newsContent",
+                                            "description": "newsDescription"
+                                        },
+                                "buttons":
+                                [
+                                    {
+                                        "action":  "webLink",
+                                        "label": "더보기",
+                                        "webLinkUrl": "https://www.google.com"
+                                    }
+                                ]
+                            }
+                        ]
                     }
-                ]
                 }
-            }
+            ],
+            "quickReplies": [
+                {   # https://devtalk.kakao.com/t/id/112787
+                    "action": "message",  # 나중에 이것도 원래 홈으로 돌아가게 만들거임
+                    # "blockId": blockid,
+                    "label": "처음으로 돌아가기 🏠"
+                },
             ]
         }
-        }
+    }
+    # responseBody = {
+    #     "version": "2.0",
+    #     "template": {
+    #         "outputs": [
+    #         {
+    #             "basicCard": {
+    #             "title": "보물상자",
+    #             "description": "보물상자 안에는 뭐가 있을까",
+    #             "thumbnail": {
+    #                 "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
+    #             },
+    #             "profile": {
+    #                 "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
+    #                 "nickname": "보물상자"
+    #             },
+    #             "social": {
+    #                 "like": 1238,
+    #                 "comment": 8,
+    #                 "share": 780
+    #             },
+    #             "buttons": [
+    #                 {
+    #                 "action": "message",
+    #                 "label": "열어보기",
+    #                 "messageText": "짜잔! 우리가 찾던 보물입니다"
+    #                 },
+    #                 {
+    #                 "action":  "webLink",
+    #                 "label": "구경하기",
+    #                 "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
+    #                 }
+    #             ]
+    #             }
+    #         }
+    #         ]
+    #     }
+    #     }
     return responseBody
 
 
