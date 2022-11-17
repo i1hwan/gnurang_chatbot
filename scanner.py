@@ -193,7 +193,10 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
         menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
         for i in range(4): # -> [주식, 국류, 찬류, 후식]
             print(f"[정보] menu_category{i} = {menu_category[i].text}")
-            response += "[" + menu_category[i].text + "]" + "\n"
+            if i == 0:
+                response += "[" + menu_category[i].text + "]" + "\n"
+            else:
+                response += "\n[" + menu_category[i].text + "]" + "\n"
             parsed_menu = str(menu_meal[col + (7 * i)].extract())  # col = 0, 1, 2, 3, 4, 5, 6 (일요일 ~ 토요일) + (7 * 0~3) (조식, 중식, 석식, 특식)
             parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "\n");parsed_menu = parsed_menu.replace("<br/>", "\n");parsed_menu = parsed_menu.replace("</br>", "\n");parsed_menu = parsed_menu.strip()
             print(f"[정보] menu_meal{col + (7 * i)} = {parsed_menu}")
@@ -212,11 +215,12 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
         menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
         print(f"""[정보] menu_type = {menu_meal[0].find_all('p', {"class": "fm_tit_p mgt15"})}""")
         menu_type = menu_meal[0].find_all('p', {"class": "fm_tit_p mgt15"})
-        for i in range(1): # -> [주식, 국류, 찬류, 후식]
+        for i in range(1):  # [점심] 
             print(f"[정보] menu_category{i} = {menu_category[i].text}")
             response += "[" + menu_category[i].text + "]" + "\n"
             parsed_menu = str(menu_meal[col].extract())  # col = 0, 1, 2, 3, 4, 5, 6 (일요일 ~ 토요일) + (7 * 0~3) (조식, 중식, 석식, 특식)
-            parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "\n");parsed_menu = parsed_menu.replace("<br/>", "\n");parsed_menu = parsed_menu.replace("</br>", "\n");parsed_menu = parsed_menu.replace('<p class="fm_tit_p mgt15">', '- ');parsed_menu = parsed_menu.strip()
+            print('[정보] parsed_menu = ', parsed_menu)
+            parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "");parsed_menu = parsed_menu.replace("<br/>", "");parsed_menu = parsed_menu.replace("</br>", "");parsed_menu = parsed_menu.replace('<p class="fm_tit_p mgt15">', '- ');parsed_menu = parsed_menu.strip().replace("\n\n", "\n")
             print(f"[정보] menu_meal{col} = {parsed_menu}")
             response += str(parsed_menu)
             # = 아무런 정보가 없는 경우!! =
@@ -308,7 +312,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
 if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
-    restaurant = "가좌 교직원식당"
+    restaurant = "교육문화1층식당"
     date = "오늘"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))
