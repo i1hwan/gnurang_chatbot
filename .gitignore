@@ -1,7 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/flask,python,azurefunctions
-# Edit at https://www.toptal.com/developers/gitignore?templates=flask,python,azurefunctions
-
-.github/
+# Created by https://www.toptal.com/developers/gitignore/api/macos,python,azurefunctions,flask
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,azurefunctions,flask
 
 ### AzureFunctions ###
 # Azure Functions localsettings file
@@ -173,6 +171,39 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### macOS Patch ###
+# iCloud generated files
+*.icloud
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 
@@ -255,4 +286,4 @@ cython_debug/
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 
-# End of https://www.toptal.com/developers/gitignore/api/flask,python,azurefunctions
+# End of https://www.toptal.com/developers/gitignore/api/macos,python,azurefunctions,flask
