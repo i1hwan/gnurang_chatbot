@@ -185,9 +185,9 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
             return response, False
     # TODO 다른 식당도 추가하기
-     # == 가좌 교직원식당 식단 체크 ===================================================
-    elif restaurant == "가좌 교직원식당":
-        print("[정보] 가좌 교직원식당 식단을 찾습니다.")
+     # == 모든 교직원식당 식단 체크 ===================================================
+    elif restaurant == "가좌 교직원식당" or restaurant == "칠암 교직원식당" or restaurant == "통영 교직원식당":
+        print("[정보] 가좌, 칠암, 통영 교직원식당 식단을 찾습니다.")
         menu = html.find_all("tbody")  # 웹 페이지에서 tbody 태그를 찾아서 menu에 저장 (식단이 있는 곳)
         menu_category = menu[0].find_all("th")  # 웹 페이지에서 th 태그를 찾아서 menu_category에 저장 (식단 카테고리)
         menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
@@ -285,12 +285,19 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                         ]
                         }
                     }
-                ]
+                ]    
             # = 아무런 정보가 없는 경우!! =
         if len(response) <= 0:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")
             response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
             return response, False
+        
+    # elif "학식" in req["action"]["detailParams"]["meal"]["value"]:
+    elif restaurant == "칠암 학생식당":
+        print("[정보] 칠암 학생식당의 식단을 찾습니다.")
+        items = []
+        menu = html.find_all('div', {"class": "fm_box"})  # 메뉴가 있는 div 태그를 모두 찾음
+        pass
 
     endtime = time.time()
     print(f"[종료] {__name__} 실행시간 = {endtime - starttime}초 ##############################")
