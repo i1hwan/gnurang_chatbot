@@ -415,155 +415,165 @@ def getMeal():
 
 
 
-def testing():
-    responseBody = {
-        "version": "2.0",
-        "template":
-        {
-            "outputs": [
-                {
-                    "carousel": {
-                        "type": "listCard",
-                        "items":
-                        [
-                            {
-                                "header":
-                                {
-                                    "title": "공지 - 기관 (1/3)"
-                                },
-                                "items": 
-                                {
-                                    "title": "newsContent",
-                                    "description": "newsDescription"
-                                },
-                                "buttons":
-                                [
-                                    {
-                                        "action":  "webLink",
-                                        "label": "더보기",
-                                        "webLinkUrl": "https://www.gnu.ac.kr"
-                                    }
-                                ]
-                            },
-                            {
-                                "header":
-                                {
-                                    "title": "공지 - 학사 (2/3)"
-                                },
-                                "items": 
-                                {
-                                    "title": "newsContent",
-                                    "description": "newsDescription"
-                                },
-                                "buttons":
-                                [
-                                    {
-                                        "action":  "webLink",
-                                        "label": "더보기",
-                                        "webLinkUrl": "https://www.naver.com"
-                                    }
-                                ]
-                            },
-                            {
-                                "header":
-                                {
-                                    "title": "공지 - 장학 (3/3)"
-                                },
-                                "items": 
-                                {
-                                    "title": "newsContent",
-                                    "description": "newsDescription"
-                                },
-                                "buttons":
-                                [
-                                    {
-                                        "action":  "webLink",
-                                        "label": "더보기",
-                                        "webLinkUrl": "https://www.google.com"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
-            ],
-            "quickReplies": [
-                {   # https://devtalk.kakao.com/t/id/112787
-                    "action": "message",  # 나중에 이것도 원래 홈으로 돌아가게 만들거임
-                    # "blockId": blockid,
-                    "label": "처음으로 돌아가기 🏠"
-                },
-            ]
-        }
-    }
-    # responseBody = {
-    #     "version": "2.0",
-    #     "template": {
-    #         "outputs": [
-    #         {
-    #             "basicCard": {
-    #             "title": "보물상자",
-    #             "description": "보물상자 안에는 뭐가 있을까",
-    #             "thumbnail": {
-    #                 "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
-    #             },
-    #             "profile": {
-    #                 "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
-    #                 "nickname": "보물상자"
-    #             },
-    #             "social": {
-    #                 "like": 1238,
-    #                 "comment": 8,
-    #                 "share": 780
-    #             },
-    #             "buttons": [
-    #                 {
-    #                 "action": "message",
-    #                 "label": "열어보기",
-    #                 "messageText": "짜잔! 우리가 찾던 보물입니다"
-    #                 },
-    #                 {
-    #                 "action":  "webLink",
-    #                 "label": "구경하기",
-    #                 "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
-    #                 }
-    #             ]
-    #             }
-    #         }
-    #         ]
-    #     }
-    #     }
-    return responseBody
+# def testing():
+#     responseBody = {
+#         "version": "2.0",
+#         "template":
+#         {
+#             "outputs": [
+#                 {
+#                     "carousel": {
+#                         "type": "listCard",
+#                         "items":
+#                         [
+#                             {
+#                                 "header":
+#                                 {
+#                                     "title": "공지 - 기관 (1/3)"
+#                                 },
+#                                 "items": 
+#                                 {
+#                                     "title": "newsContent",
+#                                     "description": "newsDescription"
+#                                 },
+#                                 "buttons":
+#                                 [
+#                                     {
+#                                         "action":  "webLink",
+#                                         "label": "더보기",
+#                                         "webLinkUrl": "https://www.gnu.ac.kr"
+#                                     }
+#                                 ]
+#                             },
+#                             {
+#                                 "header":
+#                                 {
+#                                     "title": "공지 - 학사 (2/3)"
+#                                 },
+#                                 "items": 
+#                                 {
+#                                     "title": "newsContent",
+#                                     "description": "newsDescription"
+#                                 },
+#                                 "buttons":
+#                                 [
+#                                     {
+#                                         "action":  "webLink",
+#                                         "label": "더보기",
+#                                         "webLinkUrl": "https://www.naver.com"
+#                                     }
+#                                 ]
+#                             },
+#                             {
+#                                 "header":
+#                                 {
+#                                     "title": "공지 - 장학 (3/3)"
+#                                 },
+#                                 "items": 
+#                                 {
+#                                     "title": "newsContent",
+#                                     "description": "newsDescription"
+#                                 },
+#                                 "buttons":
+#                                 [
+#                                     {
+#                                         "action":  "webLink",
+#                                         "label": "더보기",
+#                                         "webLinkUrl": "https://www.google.com"
+#                                     }
+#                                 ]
+#                             }
+#                         ]
+#                     }
+#                 }
+#             ],
+#             "quickReplies": [
+#                 {   # https://devtalk.kakao.com/t/id/112787
+#                     "action": "message",  # 나중에 이것도 원래 홈으로 돌아가게 만들거임
+#                     # "blockId": blockid,
+#                     "label": "처음으로 돌아가기 🏠"
+#                 },
+#             ]
+#         }
+#     }
+#     # responseBody = {
+#     #     "version": "2.0",
+#     #     "template": {
+#     #         "outputs": [
+#     #         {
+#     #             "basicCard": {
+#     #             "title": "보물상자",
+#     #             "description": "보물상자 안에는 뭐가 있을까",
+#     #             "thumbnail": {
+#     #                 "imageUrl": "https://t1.kakaocdn.net/openbuilder/sample/lj3JUcmrzC53YIjNDkqbWK.jpg"
+#     #             },
+#     #             "profile": {
+#     #                 "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4BJ9LU4Ikr_EvZLmijfcjzQKMRCJ2bO3A8SVKNuQ78zu2KOqM",
+#     #                 "nickname": "보물상자"
+#     #             },
+#     #             "social": {
+#     #                 "like": 1238,
+#     #                 "comment": 8,
+#     #                 "share": 780
+#     #             },
+#     #             "buttons": [
+#     #                 {
+#     #                 "action": "message",
+#     #                 "label": "열어보기",
+#     #                 "messageText": "짜잔! 우리가 찾던 보물입니다"
+#     #                 },
+#     #                 {
+#     #                 "action":  "webLink",
+#     #                 "label": "구경하기",
+#     #                 "webLinkUrl": "https://e.kakao.com/t/hello-ryan" # <- urlselector
+#     #                 }
+#     #             ]
+#     #             }
+#     #         }
+#     #         ]
+#     #     }
+#     #     }
+#     return responseBody
 
 
 
 
 
-@app.route('/api/TEST', methods=['POST'])
-def TEST():
-    body = request.get_json()
-    print(body)
-    print(body['userRequest']['utterance'])
-    # Cache Test =============================================
-    # if cache.get('TEST') is None:
-    #     print("캐시된 값이 없습니다. -> TEST() 함수 실행")
-    #     cache.set('TEST', testing())
-    # responseBody = cache.get('TEST')
-    # print(f"[정보] cache = {cache}")
-    # print(f"[정보] cache.get('TEST') = {cache.get('TEST')}")
-    # Non Cache Test ==========================================
-    responseBody = testing()
-    print(f"[정보] responseBody = {responseBody}")
-    return responseBody
+# @app.route('/api/TEST', methods=['POST'])
+# def TEST():
+#     body = request.get_json()
+#     print(body)
+#     print(body['userRequest']['utterance'])
+#     # Cache Test =============================================
+#     # if cache.get('TEST') is None:
+#     #     print("캐시된 값이 없습니다. -> TEST() 함수 실행")
+#     #     cache.set('TEST', testing())
+#     # responseBody = cache.get('TEST')
+#     # print(f"[정보] cache = {cache}")
+#     # print(f"[정보] cache.get('TEST') = {cache.get('TEST')}")
+#     # Non Cache Test ==========================================
+#     responseBody = testing()
+#     print(f"[정보] responseBody = {responseBody}")
+#     return responseBody
 
 @app.route('/api/delCache', methods=['POST'])
 def delCache():
     cache.delete('getNews')
-    cache.delete('TEST')
+    # cache.delete('TEST')
     return "캐시 삭제 완료"
 
-
-
+@app.route('/api/getCache', methods=['POST'])
+def getCache() -> str:
+    '''/api/getCache 경로로 접속하면 캐시를 가져오는 함수'''
+    '''uptime 서버를 활용해 캐시를 일정 주기로 가져오도록 만들 예정'''
+    print(f"[시작] /api/getCache 접근중...")
+    print(f"[정보] cache <- findNews() 시도")
+    try: 
+        cache.set('getNews', findNews(5))
+        print(f"[정보] cache <- findNews() 성공")
+        print(f"[정보] cache = {cache}")
+    except: print(f"[오류] cache <- findNews() 실패")
+    return "캐시 저장 완료됨"
 
 
 # ## 카카오톡 이미지형 응답
