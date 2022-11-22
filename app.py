@@ -556,13 +556,13 @@ def getMeal():
 #     print(f"[정보] responseBody = {responseBody}")
 #     return responseBody
 
-@app.route('/api/delCache', methods=['POST'])
+@app.route('/api/delCache')
 def delCache():
     cache.delete('getNews')
     # cache.delete('TEST')
     return "캐시 삭제 완료"
 
-@app.route('/api/getCache', methods=['POST'])
+@app.route('/api/getCache')
 def getCache() -> str:
     '''/api/getCache 경로로 접속하면 캐시를 가져오는 함수'''
     '''uptime 서버를 활용해 캐시를 일정 주기로 가져오도록 만들 예정'''
