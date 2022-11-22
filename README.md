@@ -1,3 +1,4 @@
+![](https://user-images.githubusercontent.com/35260883/203250236-cc72dd87-e52f-415e-b691-4c650774ff35.jpg)
 # 지누랑! (gnurang)
 ![](https://img.shields.io/github/deployments/mtslzx/gnurang/Production?label=Deploy&logo=Microsoft%20Azure&style=flat-square) 
 ![](https://img.shields.io/uptimerobot/ratio/7/m793065076-e8f3564d04617770b360348d?logo=Azure%20Functions&style=flat-square)
