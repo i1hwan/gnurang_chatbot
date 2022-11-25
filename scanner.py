@@ -253,7 +253,6 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")
             response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날이거나 학식 정보가 추가되지 않은것 같아..."
             return response, False
-    # == 아람관 식단 체크 ===================================================
     elif restaurant == "가좌 생활관 식당":
         print("[정보] 아람관 식단을 찾습니다.")
         items = []  # [response][items]에 들어갈 리스트
@@ -276,19 +275,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                     tempStr = tempStr + (menu_detail[j].split(" "))[k] + " "  # 메뉴를 문자열에 결합
                 menu_typeList.append(tempStr.strip())  # 양옆 공백 제거 후 리스트에 추가
             print(f"""[정보] menu_typeList = {menu_typeList}""")
-            items.append(menu_typeList)  # items 리스트에 추가
-            print(f"###########[정보] items = {items}")
-            # while items:
-            #     response += f"{items[0][0]} : {items[0][1].split()}\n"
-            #     items.pop(0)
             
-            for idx, val in enumerate(items):
-                print(f"""[정보] items[{idx}] = {val}""")
-            # print("\\\\\\\\\\\\\\" + '\n'.join(map(str, items)))
-            # response += '\n'.join(map(str, items))
-
-
-        # <!-- [Deprecated] 캐로샐 형식으로 출력 -->
             item = []  # [response][items][item]에 들어갈 리스트
             for j in range(len(menu_typeList)//2):  # 코스가 없는 날도 있으므로 유동적으로 조정되게 만듬
                 temp = {
@@ -327,48 +314,127 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                         }
                     }
                 ]    
-        # <-- [Deprecated] 캐로샐 형식으로 출력 -->
-        # <---- 텍스트 형식으로 출력 ---->
-        # # item = []  # [response][items][item]에 들어갈 리스트
-        # temp = ''
-        # flag = False  # 공지사항 문자를 split하는걸 방지하기 위한 flag
-        # print(f"[정보] items = {items}")
-        # for i in range(len(items)):
-        #     for idx, val in enumerate(items[i]):  # 코스가 없는 날도 있으므로 유동적으로 조정되게 만듬
-        #         if not val == '공지':
-        #             if idx % 2 == 0:  # 짝수일때, idx는 0부터 시작.
-        #                 temp += '• ' + val + '\n'
-        #             elif flag == True:
-        #                 temp += val + '\n'
-        #                 flag = False
-        #             else:
-        #                 temp += '\n'.join(val.split()) + '\n'
-        #         else:
-        #             temp += '• ' + val + '\n'
-        #             flag = True
-        # <---- 텍스트 형식으로 출력 ---->
-            # print(f"[정보] temp = {temp}")
-            # item.append(temp)
-        # print(f"[정보] item = {item}")
-        # items.append(item)
-        # print(f"[정보] items = {items}")
-        print("==========================================================")
-        # print(f"[정보] temp = {temp}")
-        print("==========================================================")
-        
-        
-        # response = [
-        #             {
-        #                     "simpleText": {
-        #                                     "text": temp
-        #                                 }
-        #             }
-        #             ]
             # = 아무런 정보가 없는 경우!! =
         if len(response) <= 0:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")
             response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
             return response, False
+    # # == 아람관 식단 체크 ===================================================
+    # elif restaurant == "가좌 생활관 식당":
+    #     print("[정보] 아람관 식단을 찾습니다.")
+    #     items = []  # [response][items]에 들어갈 리스트
+    #     menu = html.find_all("tbody")  # 웹 페이지에서 tbody 태그를 찾아서 menu에 저장 (식단이 있는 곳)
+    #     menu_category = menu[0].find_all("th")  # 웹 페이지에서 th 태그를 찾아서 menu_category에 저장 (식단 카테고리)
+    #     menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
+    #     # print(f"[정보] menu_meal{col + (7 * i)} = {menu_meal[col + (7 * i)].text}")
+    #     for i in range(len(menu_category)):  # -> [아침, 점심, 저녁]
+    #         menu_type = str(menu_meal[col + (7 * i)].find_all('p', {"class": "fm_tit_p mgt15"})).replace("[", "").replace("]", "").replace('<p class="fm_tit_p mgt15">', "").replace('</p>', "").replace(',',"").split()  # 데이터 가공
+    #         menu_detail = str(menu_meal[col + (7 * i)].find_all('p', {"class": ""})).replace("[", "").replace("]", "").replace('<p class="">', "").replace('</p>', "").replace("<br>", " ").replace("</br>"," ").replace("<br/>"," ").split(",")  # 데이터 가공
+    #         print(f'[정보] raw menu_meal = {menu_meal[col + (7 * i)].find_all("p", {"class": "fm_tit_p mgt15"})}')
+    #         print(f"""[정보] menu_type = {menu_type}""")
+    #         print(f"""[정보] menu_detail = {menu_detail}""")
+    #         menu_typeList = []
+            
+    #         for j in range(len(menu_type)):  # 코스가 없는 날도 있으므로 유동적으로 조정되도록 만듬
+    #             tempStr = ""  # 임시 빈 문자열 생성
+    #             menu_typeList.append(menu_type[j])  # 매뉴 리스트에 코스 이름을 추가
+    #             for k in range(len(menu_detail[j].split(" "))):  # 메뉴를 공백을 기준으로 나눔 ex : "김치찌개 김치 깍두기" -> ["김치찌개", "김치", "깍두기"]
+    #                 tempStr = tempStr + (menu_detail[j].split(" "))[k] + " "  # 메뉴를 문자열에 결합
+    #             menu_typeList.append(tempStr.strip())  # 양옆 공백 제거 후 리스트에 추가
+    #         print(f"""[정보] menu_typeList = {menu_typeList}""")
+    #         items.append(menu_typeList)  # items 리스트에 추가
+    #         print(f"###########[정보] items = {items}")
+    #         # while items:
+    #         #     response += f"{items[0][0]} : {items[0][1].split()}\n"
+    #         #     items.pop(0)
+            
+    #         for idx, val in enumerate(items):
+    #             print(f"""[정보] items[{idx}] = {val}""")
+    #         # print("\\\\\\\\\\\\\\" + '\n'.join(map(str, items)))
+    #         # response += '\n'.join(map(str, items))
+
+
+    #     # <!-- [Deprecated] 캐로샐 형식으로 출력 -->
+    #         item = []  # [response][items][item]에 들어갈 리스트
+    #         for j in range(len(menu_typeList)//2):  # 코스가 없는 날도 있으므로 유동적으로 조정되게 만듬
+    #             temp = {
+    #                 "title": menu_typeList[j*2],
+    #                 "description": menu_typeList[(j*2)+1]
+    #             }
+    #             print(f"[정보] temp = {temp}")
+    #             item.append(temp)
+    #         print(f"[정보] item = {item}")
+    #         items.append(item)
+    #     print(f"[정보] items = {items}")
+    #     response = [
+    #                 {
+    #                     "carousel": {
+    #                     "type": "listCard",
+    #                     "items": [
+    #                         {
+    #                         "header": {
+    #                             "title": "아침 (1/3)"
+    #                         },
+    #                         "items": items[0]
+    #                         },
+    #                         {
+    #                         "header": {
+    #                             "title": "점심 (2/3)"
+    #                         },
+    #                         "items": items[1]
+    #                         },
+    #                         {
+    #                         "header": {
+    #                             "title": "저녁 (3/3)"
+    #                         },
+    #                         "items": items[2]
+    #                         }
+    #                     ]
+    #                     }
+    #                 }
+    #             ]    
+    #     # <-- [Deprecated] 캐로샐 형식으로 출력 -->
+    #     # <---- 텍스트 형식으로 출력 ---->
+    #     # # item = []  # [response][items][item]에 들어갈 리스트
+    #     # temp = ''
+    #     # flag = False  # 공지사항 문자를 split하는걸 방지하기 위한 flag
+    #     # print(f"[정보] items = {items}")
+    #     # for i in range(len(items)):
+    #     #     for idx, val in enumerate(items[i]):  # 코스가 없는 날도 있으므로 유동적으로 조정되게 만듬
+    #     #         if not val == '공지':
+    #     #             if idx % 2 == 0:  # 짝수일때, idx는 0부터 시작.
+    #     #                 temp += '• ' + val + '\n'
+    #     #             elif flag == True:
+    #     #                 temp += val + '\n'
+    #     #                 flag = False
+    #     #             else:
+    #     #                 temp += '\n'.join(val.split()) + '\n'
+    #     #         else:
+    #     #             temp += '• ' + val + '\n'
+    #     #             flag = True
+    #     # <---- 텍스트 형식으로 출력 ---->
+    #         # print(f"[정보] temp = {temp}")
+    #         # item.append(temp)
+    #     # print(f"[정보] item = {item}")
+    #     # items.append(item)
+    #     # print(f"[정보] items = {items}")
+    #     print("==========================================================")
+    #     # print(f"[정보] temp = {temp}")
+    #     print("==========================================================")
+        
+        
+    #     # response = [
+    #     #             {
+    #     #                     "simpleText": {
+    #     #                                     "text": temp
+    #     #                                 }
+    #     #             }
+    #     #             ]
+    #         # = 아무런 정보가 없는 경우!! =
+    #     if len(response) <= 0:
+    #         print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")
+    #         response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
+    #         return response, False
         
     # elif "학식" in req["action"]["detailParams"]["meal"]["value"]:
     # elif restaurant == "칠암 학생식당":
