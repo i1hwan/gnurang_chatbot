@@ -379,7 +379,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
 
     endtime = time.time()
     print(f"[종료] {__name__} 실행시간 = {endtime - starttime}초 ##############################")
-    return responseBody, True
+    return response, True
 
 
 
