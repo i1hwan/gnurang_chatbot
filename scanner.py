@@ -300,7 +300,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             print(f"[정보] item = {item}")
             items.append(item)
         print(f"[정보] items = {items}")
-        responseBody = [
+        response = [
                     {
                         "carousel": {
                         "type": "listCard",
@@ -357,7 +357,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
         print("==========================================================")
         
         
-        # responseBody = [
+        # response = [
         #             {
         #                     "simpleText": {
         #                                     "text": temp
@@ -365,10 +365,10 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
         #             }
         #             ]
             # = 아무런 정보가 없는 경우!! =
-        if len(responseBody) <= 0:
+        if len(response) <= 0:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")
-            responseBody = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
-            return responseBody, False
+            response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
+            return response, False
         
     # elif "학식" in req["action"]["detailParams"]["meal"]["value"]:
     # elif restaurant == "칠암 학생식당":
