@@ -58,10 +58,11 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     # == 날짜 체크 ===============================================================
     print("[정보] 날짜 체크를 시작합니다...")
     # 학교 공식 식단리스트에 접근해 표의 날짜 리스트 [구분, 월, 화, 수, 목, 금, 토, 일]를 가져옴
-    try: html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
-    except Exception as e:
-        print(f"[오류] findMeal | {e}")
-        return e, e  # 올바르지 않은 종료
+    # try: html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
+    # except Exception as e:
+    #     print(f"[오류] findMeal | {e}")
+    #     return e, e  # 올바르지 않은 종료
+    html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
     date = html.find_all("thead")  # thead 태그를 찾아서 date에 저장
     dateli = []  # 날짜를 저장해줄 리스트 선언
     for i in range(8):  # -> [구분, 월, 화, 수, 목, 금, 토, 일]
