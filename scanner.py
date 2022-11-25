@@ -58,7 +58,10 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     # == 날짜 체크 ===============================================================
     print("[정보] 날짜 체크를 시작합니다...")
     # 학교 공식 식단리스트에 접근해 표의 날짜 리스트 [구분, 월, 화, 수, 목, 금, 토, 일]를 가져옴
-    html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
+    try: html = bs4.BeautifulSoup(urllib.request.urlopen(url), "html.parser")  # https://itsaessak.tistory.com/295
+    except Exception as e:
+        print(f"[오류] findMeal | {e}")
+        return e, e  # 올바르지 않은 종료
     date = html.find_all("thead")  # thead 태그를 찾아서 date에 저장
     dateli = []  # 날짜를 저장해줄 리스트 선언
     for i in range(8):  # -> [구분, 월, 화, 수, 목, 금, 토, 일]
@@ -187,11 +190,11 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
     # TODO 다른 식당도 추가하기
      # == 모든 교직원식당 식단 체크 ===================================================
     elif restaurant == "가좌 교직원식당" or restaurant == "칠암 교직원식당" or restaurant == "통영 교직원식당" or restaurant == "칠암 학생식당" or restaurant == "통영 학생식당" or restaurant == "칠암 제1생활관 식당":
-        print("[정보] 가좌, 칠암, 통영 교직원식당 식단을 찾습니다.")
+        print(f"[정보] {restaurant} 식단을 찾습니다.")
         menu = html.find_all("tbody")  # 웹 페이지에서 tbody 태그를 찾아서 menu에 저장 (식단이 있는 곳)
         menu_category = menu[0].find_all("th")  # 웹 페이지에서 th 태그를 찾아서 menu_category에 저장 (식단 카테고리)
         menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
-        for i in range(4): # -> [주식, 국류, 찬류, 후식]
+        for i in range(len(menu_category)): # -> [주식, 국류, 찬류, 후식]
             print(f"[정보] menu_category{i} = {menu_category[i].text}")
             if i == 0:
                 response += "[" + menu_category[i].text + "]" + "\n"
@@ -215,12 +218,33 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
         menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
         print(f"""[정보] menu_type = {menu_meal[0].find_all('p', {"class": "fm_tit_p mgt15"})}""")
         menu_type = menu_meal[0].find_all('p', {"class": "fm_tit_p mgt15"})
-        for i in range(1):  # [점심] 
+        for i in range(len(menu_category)):  # 인식된 카테고리 줄 만큼 반복
             print(f"[정보] menu_category{i} = {menu_category[i].text}")
             response += "[" + menu_category[i].text + "]" + "\n"
             parsed_menu = str(menu_meal[col].extract())  # col = 0, 1, 2, 3, 4, 5, 6 (일요일 ~ 토요일) + (7 * 0~3) (조식, 중식, 석식, 특식)
             print('[정보] parsed_menu = ', parsed_menu)
-            parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "");parsed_menu = parsed_menu.replace("<br/>", "");parsed_menu = parsed_menu.replace("</br>", "");parsed_menu = parsed_menu.replace('<p class="fm_tit_p mgt15">', '- ');parsed_menu = parsed_menu.strip().replace("\n\n", "\n")
+            parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "");parsed_menu = parsed_menu.replace("<br/>", "");parsed_menu = parsed_menu.replace("</br>", "");parsed_menu = parsed_menu.replace('<p class="fm_tit_p mgt15">', '• ');parsed_menu = parsed_menu.strip().replace("\n\n", "\n")
+            print(f"[정보] menu_meal{col} = {parsed_menu}")
+            response += str(parsed_menu)
+            # = 아무런 정보가 없는 경우!! =
+        if len(response) <= 45:
+            print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")
+            response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날이거나 학식 정보가 추가되지 않은것 같아..."
+            return response, False
+     # == 칠암 제2생활관 식당 식단 체크 ===================================================
+    elif restaurant == "칠암 제2생활관 식당":
+        print("[정보] 칠암 제2생활관 식당 식단을 찾습니다.")
+        menu = html.find_all("tbody")  # 웹 페이지에서 tbody 태그를 찾아서 menu에 저장 (식단이 있는 곳)
+        menu_category = menu[0].find_all("th")  # 웹 페이지에서 th 태그를 찾아서 menu_category에 저장 (식단 카테고리)
+        menu_meal = menu[0].find_all("td")  # 웹 페이지에서 td 태그를 찾아서 menu_meal에 저장 (식단)
+        print(f"""[정보] menu_type = {menu_meal[0].find_all('p', {"class": "fm_tit_p mgt15"})}""")
+        menu_type = menu_meal[0].find_all('p', {"class": "fm_tit_p mgt15"})
+        for i in range(len(menu_category)):  # 인식된 카테고리 줄 만큼 반복
+            print(f"[정보] menu_category{i} = {menu_category[i].text}")
+            response += "[" + menu_category[i].text + "]" + "\n"
+            parsed_menu = str(menu_meal[col].extract())  # col = 0, 1, 2, 3, 4, 5, 6 (일요일 ~ 토요일) + (7 * 0~3) (조식, 중식, 석식, 특식)
+            print('[정보] parsed_menu = ', parsed_menu)
+            parsed_menu = parsed_menu.replace("<td>", ""); parsed_menu = parsed_menu.replace("</td>", "");parsed_menu = parsed_menu.replace("<div>", ""); parsed_menu = parsed_menu.replace("</div>", "");parsed_menu = parsed_menu.replace('<p class="">', ""); parsed_menu = parsed_menu.replace("</p>", "");parsed_menu = parsed_menu.replace("<br>", "");parsed_menu = parsed_menu.replace("<br/>", "\n");parsed_menu = parsed_menu.replace("</br>", "");parsed_menu = parsed_menu.replace('<p class="fm_tit_p mgt15">', '• ');parsed_menu = parsed_menu.strip().replace("\n\n", "\n")
             print(f"[정보] menu_meal{col} = {parsed_menu}")
             response += str(parsed_menu)
             # = 아무런 정보가 없는 경우!! =
@@ -251,7 +275,19 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                     tempStr = tempStr + (menu_detail[j].split(" "))[k] + " "  # 메뉴를 문자열에 결합
                 menu_typeList.append(tempStr.strip())  # 양옆 공백 제거 후 리스트에 추가
             print(f"""[정보] menu_typeList = {menu_typeList}""")
+            items.append(menu_typeList)  # items 리스트에 추가
+            print(f"###########[정보] items = {items}")
+            # while items:
+            #     response += f"{items[0][0]} : {items[0][1].split()}\n"
+            #     items.pop(0)
             
+            for idx, val in enumerate(items):
+                print(f"""[정보] items[{idx}] = {val}""")
+            # print("\\\\\\\\\\\\\\" + '\n'.join(map(str, items)))
+            # response += '\n'.join(map(str, items))
+
+
+        # <!-- [Deprecated] 캐로샐 형식으로 출력 -->
             item = []  # [response][items][item]에 들어갈 리스트
             for j in range(len(menu_typeList)//2):  # 코스가 없는 날도 있으므로 유동적으로 조정되게 만듬
                 temp = {
@@ -263,7 +299,7 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
             print(f"[정보] item = {item}")
             items.append(item)
         print(f"[정보] items = {items}")
-        response = [
+        responseBody = [
                     {
                         "carousel": {
                         "type": "listCard",
@@ -290,29 +326,66 @@ def findMeal(url: str, restaurant: str, day: str = "오늘", idx: int = 0, oriUr
                         }
                     }
                 ]    
+        # <-- [Deprecated] 캐로샐 형식으로 출력 -->
+        # <---- 텍스트 형식으로 출력 ---->
+        # # item = []  # [response][items][item]에 들어갈 리스트
+        # temp = ''
+        # flag = False  # 공지사항 문자를 split하는걸 방지하기 위한 flag
+        # print(f"[정보] items = {items}")
+        # for i in range(len(items)):
+        #     for idx, val in enumerate(items[i]):  # 코스가 없는 날도 있으므로 유동적으로 조정되게 만듬
+        #         if not val == '공지':
+        #             if idx % 2 == 0:  # 짝수일때, idx는 0부터 시작.
+        #                 temp += '• ' + val + '\n'
+        #             elif flag == True:
+        #                 temp += val + '\n'
+        #                 flag = False
+        #             else:
+        #                 temp += '\n'.join(val.split()) + '\n'
+        #         else:
+        #             temp += '• ' + val + '\n'
+        #             flag = True
+        # <---- 텍스트 형식으로 출력 ---->
+            # print(f"[정보] temp = {temp}")
+            # item.append(temp)
+        # print(f"[정보] item = {item}")
+        # items.append(item)
+        # print(f"[정보] items = {items}")
+        print("==========================================================")
+        # print(f"[정보] temp = {temp}")
+        print("==========================================================")
+        
+        
+        # responseBody = [
+        #             {
+        #                     "simpleText": {
+        #                                     "text": temp
+        #                                 }
+        #             }
+        #             ]
             # = 아무런 정보가 없는 경우!! =
-        if len(response) <= 0:
+        if len(responseBody) <= 0:
             print(f"[경고] {nowTime}의 학식 정보가 없습니다. len(response) = {len(response)}")
-            response = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
-            return response, False
+            responseBody = "학식을 찾을 수 없어.\n" + nowTime +  "은 아마 학식이 제공되지 않는 날인것 같아..."
+            return responseBody, False
         
     # elif "학식" in req["action"]["detailParams"]["meal"]["value"]:
-    elif restaurant == "칠암 학생식당":
-        print("[정보] 칠암 학생식당의 식단을 찾습니다.")
-        items = []
-        menu = html.find_all('div', {"class": "fm_box"})  # 메뉴가 있는 div 태그를 모두 찾음
-        pass
+    # elif restaurant == "칠암 학생식당":
+    #     print("[정보] 칠암 학생식당의 식단을 찾습니다.")
+    #     items = []
+    #     menu = html.find_all('div', {"class": "fm_box"})  # 메뉴가 있는 div 태그를 모두 찾음
+    #     pass
 
     endtime = time.time()
     print(f"[종료] {__name__} 실행시간 = {endtime - starttime}초 ##############################")
-    return response, True
+    return responseBody, True
 
 
 
 if __name__ == "__main__":
     # Local TEST environment
     campus = "가좌캠퍼스"
-    restaurant = "교육문화1층식당"
+    restaurant = "가좌 생활관 식당"
     date = "오늘"
     # 현재시간 구하기 https://dojang.io/mod/page/view.php?id=2463
     print(time.strftime('%a %Y-%m-%d', time.localtime(time.time())))

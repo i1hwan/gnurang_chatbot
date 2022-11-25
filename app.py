@@ -178,7 +178,7 @@ def getMeal():
                 }
                 }
             return responseBody
-        elif restaurantName == '교육문화1층식당':  # Optimized for 교육문화1층식당
+        elif restaurantName == '교육문화1층식당' or restaurantName == '칠암 제2생활관 식당':  # Optimized for 교육문화1층식당
             print(f"[정보] 교육문화1층식당 response")
             responseBody = {
                 "version": "2.0",
@@ -230,7 +230,7 @@ def getMeal():
                 }
                 }
             return responseBody
-        elif restaurantName == '가좌 교직원식당' or restaurantName == '칠암 교직원식당' or restaurantName == '통영 교직원식당' or restaurant == "칠암 학생식당" or restaurant == "통영 학생식당" or restaurant == "칠암 제1생활관 식당":  # Optimized for 교직원식당
+        elif restaurantName == '가좌 교직원식당' or restaurantName == '칠암 교직원식당' or restaurantName == '통영 교직원식당' or restaurantName == "칠암 학생식당" or restaurantName == "통영 학생식당" or restaurantName == "칠암 제1생활관 식당":  # Optimized for 교직원식당
             print(f"[정보] 교직원식당 response")
             responseBody = {
                 "version": "2.0",
@@ -385,25 +385,19 @@ def getMeal():
                 ]
             }
         }
-    else:
+    else:  # 에러...
         responseBody = {
             "version": "2.0",
             "template": {
                 "outputs": [
                     {
                         "simpleText": {
-                            "text": "에러가 발생했습니다."
+                            "text": "에러가 발생했어요... 다시 시도해 주세요."
                         }
                     }
                 ]
             }
         }
-    if restaurantName == "??":
-        pass
-    else:
-        pass
-
-
     return responseBody
 
 
