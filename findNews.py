@@ -163,7 +163,7 @@ def findNews (scraping_news_count: int = 3) -> dict:
                     "title": "지누랑!",
                     "description": "공지사항을 가져왔어!",
                     "thumbnail": {
-                        "imageUrl": "https://raw.githubusercontent.com/mtslzx/gnurang/main/img/sad.jpg",
+                        "imageUrl": "https://github.com/mtslzx/gnurang/blob/main/img/alert.png",
                         "width": 800,
                         "height": 800
                     }
