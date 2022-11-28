@@ -221,22 +221,6 @@ def findNews (scraping_news_count: int = 3) -> dict:
             ]
         }
     }
-    # responseBody = {  # FTCS - For Test Cache System
-    #     "version": "2.0",
-    #     "template": {
-    #         "outputs": [
-    #             {
-    #                 "simpleImage": {
-    #                     "imageUrl": "https://t1.daumcdn.net/friends/prod/category/M001_friends_ryan2.jpg",
-    #                     "altText": "hello I'm Ryan"
-    #                 }
-    #             }
-    #         ]
-    #     }
-    # }
-    
-
-    
     
     endtime = time.time()
     print(f"[정보] {__name__} 실행시간 = {endtime - starttime}초")
@@ -251,7 +235,7 @@ def findNews (scraping_news_count: int = 3) -> dict:
 
 
 if __name__ == "__main__":
-    # Local TEST environment
+    # For Local TEST environment
     # campus = "가좌캠퍼스"
     # restaurant = "가좌 교직원식당"
     # date = "오늘"

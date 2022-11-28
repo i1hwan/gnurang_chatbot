@@ -12,7 +12,8 @@
 카카오톡 기반 챗봇인 지누랑!은 경상국립대학교 재학생들에게 학교에 관한 정보를 쉽게 제공하기 위하여 개발되었습니다.<br>
 카카오 AI 설계 플랫폼인 **Kakao i 오픈빌더**를 기반으로 제작되었으며, Kakao i 오픈빌더에서 제공하는 외부 API 호출기능인 스킬을 통해 gnurang 서버에 [RESTful API](https://aws.amazon.com/ko/what-is/restful-api/)로 캠퍼스정보, 식당정보, 날짜 등을 전송하여 사용자가 요청한 식단 정보나 경상국립대학교의 공지사항을 제공하도록 되어 있습니다.
 
-
+### 제작자
+@i1hwan - mtslzx@gnu.ac.kr
 
 
 # gnurang!
